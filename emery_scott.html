@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emery Scott</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', 'Georgia', serif;
+            color: #2a2a2a;
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #f5f3f0 0%, #e8e6e1 100%);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(245, 243, 240, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1.5rem 3rem;
+            border-bottom: 1px solid rgba(42, 42, 42, 0.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #2a2a2a;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        nav a:hover {
+            color: #8b7d6b;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(165deg, #a8b5a0 0%, #d4d9d0 50%, #e8ebe6 100%);
+            margin-top: 70px;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0.85;
+        }
+
+        .hero-quote {
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: #2a2a2a;
+            font-size: 1.5rem;
+            font-style: italic;
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(5px);
+            border-radius: 8px;
+            line-height: 1.8;
+        }
+
+        /* Personal Quote Section */
+        .personal-quote {
+            padding: 6rem 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, #e8dfd8 0%, #f0e8e0 100%);
+        }
+
+        .personal-quote p {
+            font-size: 2rem;
+            font-style: italic;
+            line-height: 1.8;
+            max-width: 900px;
+            margin: 0 auto;
+            color: #3a3a3a;
+        }
+
+        .personal-quote cite {
+            display: block;
+            margin-top: 2rem;
+            font-style: normal;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            color: #6a5a4a;
+        }
+
+        /* About Section */
+        .about {
+            padding: 8rem 3rem;
+            background: linear-gradient(165deg, #dfd6cf 0%, #e8e0d8 100%);
+            display: flex;
+            align-items: flex-start;
+            gap: 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-image {
+            flex: 0 0 400px;
+            border-radius: 4px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text p {
+            font-size: 1.3rem;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+            color: #3a3a3a;
+        }
+
+        .storyteller {
+            transition: all 0.4s ease;
+            display: inline-block;
+        }
+
+        .storyteller:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 20px rgba(139, 125, 107, 0.4);
+        }
+
+        .expandable-trigger {
+            color: #8b7d6b;
+            cursor: pointer;
+            text-decoration: underline;
+            font-style: italic;
+        }
+
+        .expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s ease;
+        }
+
+        .expandable-content.open {
+            max-height: 2000px;
+        }
+
+        .expandable-content p {
+            margin-top: 2rem;
+        }
+
+        /* Navigation Buttons */
+        .main-nav-buttons {
+            padding: 6rem 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, #e0d5cc 0%, #ebe2d9 100%);
+        }
+
+        .main-nav-buttons h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            letter-spacing: 0.05em;
+            color: #3a3a3a;
+        }
+
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            padding: 2rem 4rem;
+            font-size: 1.8rem;
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid #8b7d6b;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            letter-spacing: 0.08em;
+            font-family: 'Cormorant Garamond', serif;
+            color: #2a2a2a;
+        }
+
+        .nav-button:hover {
+            background: #8b7d6b;
+            color: #fff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Content Display Area */
+        .content-display {
+            min-height: 80vh;
+            padding: 6rem 3rem;
+            position: relative;
+        }
+
+        .content-section {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Acting Section */
+        .acting-section {
+            background: linear-gradient(165deg, #d4d0e8 0%, #e6e3f0 100%);
+        }
+
+        .back-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid #8b7d6b;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            letter-spacing: 0.05em;
+            font-family: 'Cormorant Garamond', serif;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            background: #8b7d6b;
+            color: #fff;
+        }
+
+        .accordion-item {
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(139, 125, 107, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.5);
+        }
+
+        .accordion-header {
+            padding: 1.5rem 2rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.7);
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .accordion-header:hover {
+            background: rgba(139, 125, 107, 0.2);
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            padding: 0 2rem;
+        }
+
+        .accordion-content.open {
+            max-height: 3000px;
+            padding: 2rem;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        .vo-button {
+            display: inline-block;
+            padding: 1.5rem 3rem;
+            margin: 2rem 0;
+            font-size: 1.5rem;
+            background: rgba(168, 181, 160, 0.3);
+            border: 2px solid #a8b5a0;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            transition: all 0.3s ease;
+        }
+
+        .vo-button:hover {
+            background: #a8b5a0;
+            color: #fff;
+        }
+
+        .vo-content {
+            display: none;
+        }
+
+        .vo-content.active {
+            display: block;
+        }
+
+        .audio-player {
+            margin: 2rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 4px;
+        }
+
+        .audio-player audio {
+            width: 100%;
+        }
+
+        /* Modeling Section */
+        .modeling-section {
+            background: linear-gradient(165deg, #e8d4d0 0%, #f0e0dc 100%);
+        }
+
+        .category-buttons {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .category-button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid #c4a59a;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            transition: all 0.3s ease;
+        }
+
+        .category-button:hover, .category-button.active {
+            background: #c4a59a;
+            color: #fff;
+        }
+
+        .category-content {
+            display: none;
+        }
+
+        .category-content.active {
+            display: block;
+        }
+
+        .digitals-layout {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            padding: 3rem 0;
+        }
+
+        .digitals-layout img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .digitals-headshot {
+            flex: 0 0 300px;
+            order: 1;
+        }
+
+        .digitals-body {
+            flex: 0 0 calc(25% - 2rem);
+            min-width: 200px;
+        }
+
+        /* Writing Section */
+        .writing-section {
+            background: linear-gradient(165deg, #e8d8c4 0%, #f0e4d4 100%);
+        }
+
+        .writing-piece {
+            margin-bottom: 4rem;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 4px;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .writing-piece h3 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #3a3a3a;
+        }
+
+        .writing-piece p {
+            font-size: 1.2rem;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Quote Ticker */
+        .quote-ticker {
+            padding: 4rem 0;
+            background: linear-gradient(135deg, #d8cfc6 0%, #e4ddd4 100%);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .ticker-wrapper {
+            display: flex;
+            animation: scroll 40s linear infinite;
+            white-space: nowrap;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            padding: 0 4rem;
+            font-size: 1.3rem;
+            font-style: italic;
+            color: #3a3a3a;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .quote-ticker::before,
+        .quote-ticker::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 150px;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .quote-ticker::before {
+            left: 0;
+            background: linear-gradient(to right, #d8cfc6, transparent);
+        }
+
+        .quote-ticker::after {
+            right: 0;
+            background: linear-gradient(to left, #e4ddd4, transparent);
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 8rem 3rem;
+            background: linear-gradient(165deg, #c8d4c0 0%, #d8e4d0 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.2;
+            z-index: 0;
+        }
+
+        .contact-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 3rem;
+            border-radius: 4px;
+        }
+
+        .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            color: #3a3a3a;
+        }
+
+        .contact form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .contact input,
+        .contact textarea {
+            padding: 1rem;
+            font-size: 1.1rem;
+            border: 1px solid rgba(139, 125, 107, 0.3);
+            border-radius: 4px;
+            font-family: 'Cormorant Garamond', serif;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .contact textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .contact button {
+            padding: 1rem 2rem;
+            font-size: 1.2rem;
+            background: #8b7d6b;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cormorant Garamond', serif;
+            transition: all 0.3s ease;
+        }
+
+        .contact button:hover {
+            background: #6a5a4a;
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .social-links a {
+            font-size: 1.2rem;
+            color: #3a3a3a;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .social-links a:hover {
+            color: #8b7d6b;
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 1.5rem;
+            }
+
+            .about {
+                flex-direction: column;
+            }
+
+            .about-image {
+                flex: 0 0 auto;
+                max-width: 100%;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .digitals-body {
+                flex: 0 0 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a onclick="scrollToSection('hero')">Home</a></li>
+            <li><a onclick="scrollToSection('about')">About</a></li>
+            <li><a onclick="showSection('acting')">Acting</a></li>
+            <li><a onclick="showSection('modeling')">Modeling</a></li>
+            <li><a onclick="showSection('writing')">Writing</a></li>
+            <li><a onclick="showVODirect()">Voice Over</a></li>
+            <li><a onclick="scrollToSection('contact')">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero">
+        <img src="https://drive.google.com/uc?export=view&id=12MrXg6y7ZS-5z3cKU84rHeuroV4bdyh5" alt="Emery Scott" class="hero-image">
+        <div class="hero-quote">
+            "I have been with story. I have gone without. In only one of those states did I feel I could truly live and so it lives always." — E. Scott
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-image">
+            <img src="headshot.jpg" alt="Emery Scott Headshot">
+        </div>
+        <div class="about-text">
+            <p>As a lover of words, I ache to write too much. But I have decided to restrain myself. In brief... I am a <span class="storyteller">storyteller</span>.</p>
+            <p class="expandable-trigger" onclick="toggleExpand()">But are you not curious what I was going to write? You made it thus far <span style="font-size: 0.9em;">(what is but one more click?)</span></p>
+            <div class="expandable-content" id="expandable">
+                <p>Actress, model, writer. My medium may shift, but the intent remains. Some call me a contradiction: ethereal in look, but when I open my mouth I become a fun-loving nut.</p>
+                <p>My training brought me to New York and I graduated from Molloy/CAP21 with a BFA; skills in dialects, in Chekhov and Meisner, singing, dancing—and yet I learned more about what I still don't know than what I do. Recently I've been cutting my teeth on Shakespeare's The Merchant of Venice and Changing the Narrative: A Queer Cabaret.</p>
+                <p>In modeling, I have enjoyed walking the runway for the CCP Cancer Awareness Fashion Show and collaborating on various concept shoots with independent photographers.</p>
+                <p>Fundamentally, to be an interesting artist, you have to be an interested person: in people, in life, in things that you both like and abhor. In my free time, I hike the wilds of Central Park, use the NYPL like my office, draw, play guitar, roller skate, and pretend like I have free time.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Navigation Buttons -->
+    <section class="main-nav-buttons" id="mainNav">
+        <h2>Choose Your Path</h2>
+        <div class="nav-buttons">
+            <button class="nav-button" onclick="showSection('acting')">Acting</button>
+            <button class="nav-button" onclick="showSection('modeling')">Modeling</button>
+            <button class="nav-button" onclick="showSection('writing')">Writing</button>
+        </div>
+    </section>
+
+    <!-- Content Display Area -->
+    <div class="content-display">
+        
+        <!-- Acting Section -->
+        <div id="acting-section" class="content-section acting-section">
+            <button class="back-button" onclick="backToMain()">← Back</button>
+            
+            <div id="acting-main">
+                <h2 style="font-size: 2.5rem; margin-bottom: 3rem; text-align: center;">Acting</h2>
+                
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Film / Television</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/jZ2nSJOgsv0" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                        <div class="gallery">
+                            <img src="https://via.placeholder.com/400x600/a8b5a0/ffffff?text=Film+1" alt="Film 1">
+                            <img src="https://via.placeholder.com/400x600/a8b5a0/ffffff?text=Film+2" alt="Film 2">
+                            <img src="https://via.placeholder.com/400x600/a8b5a0/ffffff?text=Film+3" alt="Film 3">
+                            <img src="https://via.placeholder.com/400x600/a8b5a0/ffffff?text=Film+4" alt="Film 4">
+                            <img src="https://via.placeholder.com/400x600/a8b5a0/ffffff?text=Film+5" alt="Film 5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Commercial</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="gallery">
+                            <img src="https://via.placeholder.com/400x600/b5a8a0/ffffff?text=Commercial+1" alt="Commercial 1">
+                            <img src="https://via.placeholder.com/400x600/b5a8a0/ffffff?text=Commercial+2" alt="Commercial 2">
+                            <img src="https://via.placeholder.com/400x600/b5a8a0/ffffff?text=Commercial+3" alt="Commercial 3">
+                            <img src="https://via.placeholder.com/400x600/b5a8a0/ffffff?text=Commercial+4" alt="Commercial 4">
+                            <img src="https://via.placeholder.com/400x600/b5a8a0/ffffff?text=Commercial+5" alt="Commercial 5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Stage</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="gallery">
+                            <img src="https://via.placeholder.com/400x600/9aa8b5/ffffff?text=Stage+1" alt="Stage 1">
+                            <img src="https://via.placeholder.com/400x600/9aa8b5/ffffff?text=Stage+2" alt="Stage 2">
+                            <img src="https://via.placeholder.com/400x600/9aa8b5/ffffff?text=Stage+3" alt="Stage 3">
+                            <img src="https://via.placeholder.com/400x600/9aa8b5/ffffff?text=Stage+4" alt="Stage 4">
+                            <img src="https://via.placeholder.com/400x600/9aa8b5/ffffff?text=Stage+5" alt="Stage 5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Vocal</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/LWhhPI8B5zk" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span>Dance</span>
+                        <span>+</span>
+                    </div>
+                    <div class="accordion-content">
+                        <div class="video-container">
+                            <iframe src="https://www.youtube.com/embed/D1lYyGvt0Xg" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 3rem;">
+                    <button class="vo-button" onclick="showVO()">Voice Over</button>
+                </div>
+            </div>
+
+            <div id="vo-content" class="vo-content">
+                <button class="back-button" onclick="backToActing()">← Back to Acting</button>
+                <h2 style="font-size: 2.5rem; margin-bottom: 3rem; text-align: center;">Voice Over</h2>
+                
+                <div class="audio-player">
+                    <h3 style="margin-bottom: 1rem;">Full Demo Reel</h3>
+                    <audio controls>
+                        <source src="https://drive.google.com/uc?export=download&id=1edt-zS2Bk5lOGtJJ1FLYHybrN5D4DHyZ" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 1rem; font-size: 0.9rem;"><a href="https://drive.google.com/file/d/1edt-zS2Bk5lOGtJJ1FLYHybrN5D4DHyZ/view" target="_blank">Open in Google Drive</a></p>
+                </div>
+
+                <div class="audio-player">
+                    <h3 style="margin-bottom: 1rem;">Audiobook Sample</h3>
+                    <audio controls>
+                        <source src="audiobook-sample.mp3" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                    <p style="margin-top: 1rem; font-size: 0.9rem; font-style: italic;">Audiobook file coming soon</p>
+                </div>
+
+                <div style="margin-top: 3rem; padding: 2rem; background: rgba(255,255,255,0.6); border-radius: 4px;">
+                    <h3 style="margin-bottom: 1rem;">Animated Voice Over</h3>
+                    <p style="font-style: italic;">Content coming soon</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modeling Section -->
+        <div id="modeling-section" class="content-section modeling-section">
+            <button class="back-button" onclick="backToMain()">← Back</button>
+            <h2 style="font-size: 2.5rem; margin-bottom: 3rem; text-align: center;">Modeling</h2>
+
+            <div class="category-buttons">
+                <button class="category-button active" onclick="showCategory('digitals')">Digitals</button>
+                <button class="category-button" onclick="showCategory('runway')">Runway</button>
+                <button class="category-button" onclick="showCategory('commercial')">Commercial</button>
+                <button class="category-button" onclick="showCategory('editorial')">Editorial</button>
+            </div>
+
+            <div id="digitals-cat" class="category-content active">
+                <div class="digitals-layout">
+                    <img src="headshot.jpg" alt="Headshot" class="digitals-headshot">
+                    <img src="https://via.placeholder.com/300x600/e8d4d0/ffffff?text=Front" alt="Front" class="digitals-body">
+                    <img src="https://via.placeholder.com/300x600/e8d4d0/ffffff?text=Back" alt="Back" class="digitals-body">
+                    <img src="https://via.placeholder.com/300x600/e8d4d0/ffffff?text=Side+Right" alt="Side Right" class="digitals-body">
+                    <img src="https://via.placeholder.com/
