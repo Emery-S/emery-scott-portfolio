@@ -5,307 +5,803 @@
   <title>Emery Scott — Actress · Model · Writer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Google Fonts (swap later if desired) -->
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
-    :root {
-      --sage: #9faea1;
-      --rose: #c9a2a6;
-      --ink: #1e1e1e;
-      --shadow: rgba(0,0,0,0.25);
-      --bg-dark: #1b1f1d;
-      --bg-warm: linear-gradient(180deg, #f2ede8, #e7dfd7);
+    :root{
+      /* shared */
+      --ink: #1a1a1a;
+      --paper: #efe8df;
+      --paper2:#e7ddd1;
+      --edge: rgba(0,0,0,.16);
+
+      --sage: #93a496;
+      --rose: #c7a0a6;
+      --gold: #c9b07b;
+      --russet:#8b6b52;
+      --lav: #a7a2b8;
+
+      --radius: 18px;
+      --max: 1080px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: Inter, sans-serif;
-      background: var(--bg-dark);
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color: #f3f3f3;
-      overflow-x: hidden;
+      background:
+        radial-gradient(1200px 700px at 20% 10%, rgba(147,164,150,.22), transparent 55%),
+        radial-gradient(900px 600px at 80% 30%, rgba(199,160,166,.18), transparent 55%),
+        linear-gradient(180deg, #141614, #0f1110);
+      overflow-x:hidden;
     }
 
-    /* ---------- GLOBAL NAV ---------- */
-    nav {
-      position: fixed;
+    /* ---------- layout frame ---------- */
+    .wrap{
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 18px;
+    }
+
+    /* ---------- nav ---------- */
+    nav{
+      position: sticky;
       top: 0;
-      width: 100%;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      padding: 1rem 2rem;
-      background: linear-gradient(
-        to bottom,
-        rgba(0,0,0,0.5),
-        rgba(0,0,0,0)
-      );
+      z-index: 50;
+      backdrop-filter: blur(8px);
+      background: linear-gradient(to bottom, rgba(15,16,15,.72), rgba(15,16,15,.35));
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
-
-    nav .left {
-      font-family: "Libre Baskerville", serif;
-      font-size: 1.1rem;
-      letter-spacing: 0.02em;
+    .nav-inner{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 14px 0;
     }
-
-    nav .right button {
+    .brand{
+      font-family:"Libre Baskerville", serif;
+      letter-spacing:.02em;
+      font-size: 1.05rem;
+      opacity:.95;
+      white-space:nowrap;
+    }
+    .nav-actions{
+      display:flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content:flex-end;
+    }
+    .nav-actions button{
+      border: 0;
       background: none;
-      border: none;
       color: #f3f3f3;
-      font-family: Inter, sans-serif;
-      font-size: 0.85rem;
-      margin-left: 1.2rem;
-      cursor: pointer;
-      opacity: 0.85;
+      font-size: .84rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      cursor:pointer;
+      opacity:.82;
+      padding: 6px 4px;
+    }
+    .nav-actions button:hover{ opacity: 1; }
+
+    /* ---------- landing / hero ---------- */
+    header{
+      padding: 56px 0 18px;
+    }
+    .hero-card{
+      border-radius: var(--radius);
+      overflow:hidden;
+      position:relative;
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 20px 70px rgba(0,0,0,.35);
+      /* Replace with your hero image later */
+      background:
+        radial-gradient(900px 500px at 35% 25%, rgba(147,164,150,.35), transparent 55%),
+        radial-gradient(700px 500px at 80% 45%, rgba(199,160,166,.20), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.35));
+      padding: clamp(28px, 5vw, 54px);
+      min-height: 56vh;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      gap: 18px;
     }
 
-    nav .right button:hover {
+    .hero-title{
+      font-family:"Libre Baskerville", serif;
+      font-weight:700;
+      margin:0;
+      font-size: clamp(2.4rem, 5.2vw, 4.1rem);
+      letter-spacing:.01em;
+    }
+    .hero-roles{
+      font-size:.86rem;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      opacity:.9;
+    }
+    .hero-quote{
+      max-width: 62ch;
+      font-family:"Libre Baskerville", serif;
+      font-size: 1.02rem;
+      line-height: 1.65;
+      opacity:.92;
+      margin: 0;
+    }
+
+    /* ---------- quote ticker (simple, cohesive, masked edges) ---------- */
+    .ticker{
+      margin: 18px 0 18px;
+      border-radius: 14px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      position:relative;
+    }
+    .ticker::before,
+    .ticker::after{
+      content:"";
+      position:absolute;
+      top:0; bottom:0;
+      width: 70px;
+      z-index:2;
+      pointer-events:none;
+    }
+    .ticker::before{
+      left:0;
+      background: linear-gradient(to right, rgba(15,16,15,1), rgba(15,16,15,0));
+    }
+    .ticker::after{
+      right:0;
+      background: linear-gradient(to left, rgba(15,16,15,1), rgba(15,16,15,0));
+    }
+    .ticker-track{
+      display:flex;
+      gap: 48px;
+      white-space:nowrap;
+      padding: 14px 0;
+      animation: marquee 55s linear infinite;
+    }
+    .ticker-item{
+      opacity:.9;
+      font-size: .92rem;
+    }
+    .ticker-item span{
+      opacity:.75;
+      margin-left: 10px;
+      font-size: .88rem;
+    }
+    @keyframes marquee{
+      from{ transform: translateX(0); }
+      to{ transform: translateX(-50%); }
+    }
+
+    /* ---------- about (with drop-down) ---------- */
+    .about{
+      margin: 18px 0 28px;
+      display:grid;
+      grid-template-columns: 140px 1fr;
+      gap: 18px;
+      align-items:start;
+    }
+    .headshot{
+      width: 140px;
+      height: 170px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(150px 120px at 40% 30%, rgba(199,160,166,.28), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.25));
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
+    }
+    .about-card{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      padding: 18px 18px 16px;
+    }
+    .about-lead{
+      line-height: 1.75;
+      font-size: .98rem;
+      margin: 0 0 10px;
+      opacity:.95;
+    }
+    .storyteller{
+      display:inline-block;
+      font-family:"Libre Baskerville", serif;
+      letter-spacing:.02em;
+      transition: transform .35s ease, opacity .35s ease;
+      will-change: transform;
+    }
+    .about-card:hover .storyteller{
+      transform: translateY(-1px) scale(1.04);
       opacity: 1;
     }
-
-    /* ---------- HERO / LANDING ---------- */
-    #landing {
-      min-height: 100vh;
-      padding: 6rem 2rem 4rem;
-      background: radial-gradient(circle at 30% 20%, #2a332f, #141715);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    #landing h1 {
-      font-family: "Libre Baskerville", serif;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      margin: 0 0 0.5rem;
-    }
-
-    #landing .roles {
-      font-size: 0.9rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      opacity: 0.85;
-      margin-bottom: 2rem;
-    }
-
-    #landing blockquote {
-      max-width: 600px;
-      font-family: "Libre Baskerville", serif;
-      font-size: 1rem;
-      line-height: 1.6;
-      opacity: 0.9;
-      margin: 0 0 3rem;
-    }
-
-    #about {
-      max-width: 600px;
-      font-size: 0.95rem;
-      line-height: 1.7;
-      opacity: 0.95;
-    }
-
-    #discipline-chooser {
-      margin-top: 3rem;
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    #discipline-chooser button {
+    .about-toggle{
+      margin-top: 10px;
+      border: 0;
       background: none;
-      border: 1px solid rgba(255,255,255,0.3);
-      color: #f3f3f3;
-      padding: 0.5rem 1.2rem;
-      font-size: 0.8rem;
-      letter-spacing: 0.12em;
+      color: rgba(255,255,255,.92);
+      cursor:pointer;
+      padding: 6px 0;
+      font-size: .9rem;
+      opacity:.85;
+    }
+    .about-toggle:hover{ opacity:1; }
+    .about-more{
+      overflow:hidden;
+      max-height: 0;
+      transition: max-height .55s ease;
+      border-top: 1px solid rgba(255,255,255,.10);
+      margin-top: 10px;
+    }
+    .about-more.open{
+      max-height: 800px; /* big enough for your paragraph */
+    }
+    .about-more p{
+      margin: 12px 0 0;
+      line-height: 1.75;
+      font-size: .97rem;
+      opacity:.95;
+      white-space: pre-line;
+    }
+
+    /* ---------- discipline chooser (small buttons) ---------- */
+    .chooser{
+      display:flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin: 8px 0 26px;
+    }
+    .pill{
+      border: 1px solid rgba(255,255,255,.26);
+      background: rgba(255,255,255,.04);
+      color:#f3f3f3;
+      padding: 8px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-size: .78rem;
+      letter-spacing:.14em;
       text-transform: uppercase;
-      cursor: pointer;
+      opacity:.9;
+    }
+    .pill:hover{ border-color: rgba(199,160,166,.7); }
+
+    /* ---------- EXPAND FIRST, THEN HORIZONTAL SLIDE ---------- */
+    .reveal{
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      overflow:hidden;
+      /* collapsed by default */
+      max-height: 0;
+      transition: max-height .7s ease;
+    }
+    .reveal.open{
+      max-height: 2200px; /* allow internal scroll, still bounded */
     }
 
-    #discipline-chooser button:hover {
-      border-color: var(--rose);
+    .stage-frame{
+      padding: 18px;
     }
 
-    /* ---------- CONTENT STAGE ---------- */
-    .stage {
-      position: fixed;
-      inset: 0;
-      background: var(--bg-warm);
+    /* This is the bounded “window” that slides horizontally */
+    .slider-window{
+      border-radius: calc(var(--radius) - 4px);
+      overflow:hidden;
+      border: 1px solid rgba(0,0,0,.12);
+      background: var(--paper);
       color: var(--ink);
-      transform: translateX(100%);
-      transition: transform 0.6s ease;
+      box-shadow: 0 18px 55px rgba(0,0,0,.22);
+    }
+
+    .slider{
+      display:flex;
+      width: 400%; /* acting, modeling, writing, vo */
+      transform: translateX(0%);
+      transition: transform .65s cubic-bezier(.2,.8,.2,1);
+    }
+
+    .panel{
+      width: 25%;
+      min-height: 62vh;
+      padding: 26px;
       overflow-y: auto;
-      padding: 6rem 2rem 4rem;
     }
 
-    .stage.active {
-      transform: translateX(0);
-    }
-
-    .stage.exit-left {
-      transform: translateX(-100%);
-    }
-
-    .stage h2 {
-      font-family: "Libre Baskerville", serif;
+    .panel h2{
+      font-family:"Libre Baskerville", serif;
+      margin: 0 0 14px;
       font-size: 2rem;
-      margin-bottom: 2rem;
+      letter-spacing:.01em;
     }
 
-    .section-block {
-      margin-bottom: 2.5rem;
+    /* ----- Energy shifts (same cohesive spine, different rooms) ----- */
+    .panel.acting{
+      background:
+        radial-gradient(700px 420px at 18% 12%, rgba(147,164,150,.40), transparent 55%),
+        radial-gradient(650px 460px at 80% 30%, rgba(167,162,184,.22), transparent 55%),
+        linear-gradient(180deg, var(--paper), var(--paper2));
+    }
+    .panel.modeling{
+      background:
+        radial-gradient(700px 420px at 25% 10%, rgba(199,160,166,.35), transparent 55%),
+        radial-gradient(650px 460px at 75% 40%, rgba(201,176,123,.22), transparent 55%),
+        linear-gradient(180deg, #f2ece6, #e8ded6);
+    }
+    .panel.writing{
+      background:
+        radial-gradient(720px 460px at 30% 15%, rgba(139,107,82,.20), transparent 55%),
+        radial-gradient(600px 440px at 75% 35%, rgba(199,160,166,.18), transparent 55%),
+        linear-gradient(180deg, #f0e7db, #e6d8c9);
+    }
+    .panel.vo{
+      background:
+        radial-gradient(700px 420px at 20% 15%, rgba(26,26,26,.10), transparent 55%),
+        radial-gradient(650px 460px at 85% 30%, rgba(147,164,150,.22), transparent 55%),
+        linear-gradient(180deg, #efeae2, #e2d8cf);
     }
 
-    /* ---------- ACCORDION ---------- */
-    .accordion button {
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      font-family: Inter, sans-serif;
-      font-size: 0.95rem;
-      padding: 0.6rem 0;
-      border-bottom: 1px solid rgba(0,0,0,0.2);
-      cursor: pointer;
+    .panel p{
+      margin: 0 0 14px;
+      line-height: 1.7;
+      font-size: .98rem;
+      opacity:.95;
     }
 
-    .accordion-content {
-      display: none;
-      padding: 1rem 0;
+    /* ---------- accordion (no auto-open) ---------- */
+    .accordion{
+      border-top: 1px solid var(--edge);
+      margin-top: 16px;
+    }
+    .acc-item{
+      border-bottom: 1px solid var(--edge);
+      padding: 10px 0;
+    }
+    .acc-btn{
+      width:100%;
+      background:none;
+      border:0;
+      text-align:left;
+      cursor:pointer;
+      padding: 10px 0;
+      font-size: .98rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      color: var(--ink);
+    }
+    .acc-btn .label{
+      font-weight:500;
+      letter-spacing:.01em;
+    }
+    .acc-btn .plus{
+      opacity:.55;
+      font-size: 1.1rem;
+    }
+    .acc-content{
+      display:none;
+      padding: 8px 0 14px;
+    }
+    .acc-item.open .acc-content{ display:block; }
+
+    iframe{
+      width:100%;
+      aspect-ratio: 16/9;
+      border:0;
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.12);
     }
 
-    .accordion.open .accordion-content {
-      display: block;
+    /* ---------- modeling digitals (not a simple gallery) ---------- */
+    .digitals-grid{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+    .shot{
+      border-radius: 14px;
+      border: 1px solid rgba(0,0,0,.12);
+      background: rgba(255,255,255,.55);
+      min-height: 180px;
+      position:relative;
+      overflow:hidden;
+    }
+    .shot::after{
+      content: attr(data-label);
+      position:absolute;
+      left: 12px;
+      bottom: 10px;
+      font-size: .78rem;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      opacity:.65;
+    }
+    .digitals-side{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
     }
 
-    /* ---------- VO ---------- */
-    #vo-stage {
-      background: linear-gradient(180deg, #eae6e1, #dcd6cf);
+    /* ---------- contact stub (we’ll wire later) ---------- */
+    .contact-row{
+      display:flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-top: 10px;
     }
-
-    audio {
-      width: 100%;
-      margin-top: 1rem;
+    .contact-row a{
+      color: rgba(255,255,255,.92);
+      text-decoration:none;
+      opacity:.85;
     }
+    .contact-row a:hover{ opacity:1; }
 
-    /* ---------- FOOTER ---------- */
-    footer {
-      margin-top: 4rem;
-      font-size: 0.75rem;
-      opacity: 0.7;
+    @media (max-width: 760px){
+      .about{ grid-template-columns: 1fr; }
+      .headshot{ width: 100%; height: 220px; }
+      .panel{ padding: 20px; }
+      .digitals-grid{ grid-template-columns: 1fr; }
     }
   </style>
 </head>
+
 <body>
-
-<nav>
-  <div class="left">Emery Scott</div>
-  <div class="right">
-    <button onclick="openStage('acting')">Acting</button>
-    <button onclick="openStage('modeling')">Modeling</button>
-    <button onclick="openStage('writing')">Writing</button>
-    <button onclick="openStage('vo')">Voice Over</button>
-  </div>
-</nav>
-
-<section id="landing">
-  <h1>Emery Scott</h1>
-  <div class="roles">Actress · Model · Writer</div>
-
-  <blockquote>
-    “I have been with story. I have gone without. In only one of those states did I feel I could truly live and so it lives always.”
-    <br>— E. Scott
-  </blockquote>
-
-  <div id="about">
-    As a lover of words, I ache to write too much. But I have decided to restrain myself.
-    In brief… I am a <em>storyteller</em>.
-  </div>
-
-  <div id="discipline-chooser">
-    <button onclick="openStage('acting')">Acting</button>
-    <button onclick="openStage('modeling')">Modeling</button>
-    <button onclick="openStage('writing')">Writing</button>
-  </div>
-</section>
-
-<!-- ACTING -->
-<section id="acting" class="stage">
-  <h2>Acting</h2>
-
-  <div class="accordion section-block">
-    <button onclick="toggleAccordion(this)">Film / Television</button>
-    <div class="accordion-content">
-      <iframe width="100%" height="315"
-        src="https://www.youtube.com/embed/jZ2nSJOgsv0"
-        allowfullscreen></iframe>
+  <nav>
+    <div class="wrap nav-inner">
+      <div class="brand">Emery Scott</div>
+      <div class="nav-actions">
+        <button data-go="acting" class="navGo">Acting</button>
+        <button data-go="modeling" class="navGo">Modeling</button>
+        <button data-go="writing" class="navGo">Writing</button>
+        <button data-go="vo" class="navGo">Voice Over</button>
+        <button id="navContact">Contact</button>
+      </div>
     </div>
-  </div>
+  </nav>
 
-  <div class="accordion section-block">
-    <button onclick="toggleAccordion(this)">Vocal</button>
-    <div class="accordion-content">
-      <iframe width="100%" height="315"
-        src="https://www.youtube.com/embed/LWhhPI8B5zk"
-        allowfullscreen></iframe>
+  <header class="wrap">
+    <div class="hero-card" aria-label="Hero">
+      <div>
+        <h1 class="hero-title">Emery Scott</h1>
+        <div class="hero-roles">Actress · Model · Writer</div>
+      </div>
+
+      <p class="hero-quote">
+        “I have been with story. I have gone without. In only one of those states did I feel I could truly live and so it lives always.”
+        <br>— E. Scott
+      </p>
     </div>
-  </div>
 
-  <div class="accordion section-block">
-    <button onclick="toggleAccordion(this)">Dance</button>
-    <div class="accordion-content">
-      <iframe width="100%" height="315"
-        src="https://www.youtube.com/embed/D1lYyGvt0Xg"
-        allowfullscreen></iframe>
+    <!-- Quote ticker -->
+    <div class="ticker" aria-label="Quote ticker">
+      <div class="ticker-track" id="tickerTrack">
+        <!-- duplicated in JS for seamless loop -->
+        <div class="ticker-item">“[She’s] like a Perfect Apple. Like I want to take a bite, but also I can’t.” <span>— A Random Woman</span></div>
+        <div class="ticker-item">“[She] really impressed me tonight. raised his Modelo” <span>— Casting Director</span></div>
+        <div class="ticker-item">“I hadn’t had that much fun at a shoot in a long time.” <span>— Photographer</span></div>
+        <div class="ticker-item">“If I could see inside [her] head I feel like I’d be overwhelmed, but [she’s] always on time and off book.” <span>— Director</span></div>
+        <div class="ticker-item">“[She is] trying to do a lot, but if there’s anyone who can handle a lot it’s [her].” <span>— Editor</span></div>
+      </div>
     </div>
-  </div>
-</section>
 
-<!-- MODELING -->
-<section id="modeling" class="stage">
-  <h2>Modeling</h2>
-  <p>Digitals, Runway, Commercial, Editorial — structured galleries will live here.</p>
-</section>
+    <!-- About (expandable) -->
+    <section class="about" aria-label="About">
+      <div class="headshot" title="Headshot placeholder (replace with your image)"></div>
 
-<!-- WRITING -->
-<section id="writing" class="stage">
-  <h2>Writing</h2>
-  <p>Embedded pieces will expand here. This section stays quiet and warm.</p>
-</section>
+      <div class="about-card">
+        <p class="about-lead">
+          As a lover of words, I ache to write too much. But I have decided to restrain myself. In brief… I am a
+          <span class="storyteller">storyteller</span>.
+        </p>
 
-<!-- VO -->
-<section id="vo" class="stage" id="vo-stage">
-  <h2>Voice Over</h2>
-  <p>Audio-first. Casting utility.</p>
-  <audio controls>
-    <source src="" type="audio/mpeg">
-  </audio>
-</section>
+        <button class="about-toggle" id="aboutToggle">
+          but are you not curious what I was going to write? You made it thus far (Expandable sentence is, “what is but one more click?”)
+        </button>
 
-<script>
-  let currentStage = null;
+        <div class="about-more" id="aboutMore">
+          <p>
+Actress, model, writer. My medium may shift, but the intent remains. Some call me a contradiction: ethereal in look, but when I open my mouth I become a fun-loving nut.
+     My training brought me to New York and I graduated from Molloy/CAP21 with a BFA; skills in dialects, in Chekhov and Meisner, singing, dancing—and yet I learned more about what I still don't know than what I do. Recently I've been cutting my teeth on Shakespeare's The Merchant of Venice and Changing the Narrative: A Queer Cabaret.
+     In modeling, I have enjoyed walking the runway for the CCP Cancer Awareness Fashion Show and collaborating on various concept shoots with independent photographers.
+     Fundamentally, to be an interesting artist, you have to be an interested person: in people, in life, in things that you both like and abhor. In my free time, I hike the wilds of Central Park, use the NYPL like my office, draw, play guitar, roller skate, and pretend like I have free time.
+          </p>
+        </div>
+      </div>
+    </section>
 
-  function openStage(id) {
-    if (currentStage) {
-      currentStage.classList.remove('active');
-      currentStage.classList.add('exit-left');
+    <!-- Choose discipline (small) -->
+    <div class="chooser" aria-label="Choose discipline">
+      <button class="pill chooserGo" data-go="acting">Acting</button>
+      <button class="pill chooserGo" data-go="modeling">Modeling</button>
+      <button class="pill chooserGo" data-go="writing">Writing</button>
+      <button class="pill chooserGo" data-go="vo">Voice Over</button>
+    </div>
+
+    <!-- EXPAND FIRST: this area opens vertically, then slides horizontally inside -->
+    <section class="reveal" id="reveal">
+      <div class="stage-frame">
+        <div class="slider-window">
+          <div class="slider" id="slider">
+
+            <!-- ACTING -->
+            <article class="panel acting" aria-label="Acting panel">
+              <h2>Acting</h2>
+              <p>
+                Organized, opt-in. Nothing opens unless clicked.
+              </p>
+
+              <div class="accordion" aria-label="Acting accordion">
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Film / Television</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <iframe
+                      src="https://www.youtube.com/embed/jZ2nSJOgsv0"
+                      title="Film/TV Reel"
+                      allowfullscreen></iframe>
+                  </div>
+                </div>
+
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Commercial</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>Placeholder for commercial embed(s).</p>
+                  </div>
+                </div>
+
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Vocal</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <iframe
+                      src="https://www.youtube.com/embed/LWhhPI8B5zk"
+                      title="Vocal"
+                      allowfullscreen></iframe>
+                  </div>
+                </div>
+
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Dance</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <iframe
+                      src="https://www.youtube.com/embed/D1lYyGvt0Xg"
+                      title="Dance"
+                      allowfullscreen></iframe>
+                  </div>
+                </div>
+
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Voice Over (opens VO view)</span><span class="plus">→</span></button>
+                  <div class="acc-content">
+                    <p>This button is a shortcut — it should take them to VO without making them sift.</p>
+                    <button class="pill chooserGo" data-go="vo">Go to VO</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- MODELING -->
+            <article class="panel modeling" aria-label="Modeling panel">
+              <h2>Modeling</h2>
+              <p>Different energy: cleaner, editorial warmth, still mythic. Organized lanes.</p>
+
+              <div class="accordion" aria-label="Modeling accordion">
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Digitals</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>Structured digitals layout (not a loose gallery).</p>
+                    <div class="digitals-grid">
+                      <div class="shot" data-label="Full Front"></div>
+                      <div class="digitals-side">
+                        <div class="shot" data-label="Side Left"></div>
+                        <div class="shot" data-label="Side Right"></div>
+                      </div>
+                      <div class="shot" data-label="Full Back"></div>
+                      <div class="digitals-side">
+                        <div class="shot" data-label="Half-up"></div>
+                        <div class="shot" data-label="Headshot"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Runway</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>Runway images here.</p>
+                    <p><strong>Walk video slot:</strong> (YouTube embed will go here when ready.)</p>
+                  </div>
+                </div>
+
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Commercial</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>Commercial modeling gallery placeholder.</p>
+                  </div>
+                </div>
+
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Editorial</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>Editorial gallery placeholder.</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- WRITING -->
+            <article class="panel writing" aria-label="Writing panel">
+              <h2>Writing</h2>
+              <p>Warmest room. Intimate. Page-like rhythm. Expand to read.</p>
+
+              <div class="accordion" aria-label="Writing accordion">
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Piece I</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>Embedded text goes here.</p>
+                  </div>
+                </div>
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Piece II</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>Embedded text goes here.</p>
+                  </div>
+                </div>
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Piece III</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>Embedded text goes here.</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- VO -->
+            <article class="panel vo" aria-label="Voice Over panel">
+              <h2>Voice Over</h2>
+              <p>
+                Focused. City/studio vibes. Audio-first utility. Still in your world — just less visual demand.
+              </p>
+
+              <div class="accordion" aria-label="VO accordion">
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">VO Reel</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>
+                      Your Google Drive link is here for now (we’ll upgrade to a proper embedded player next).
+                    </p>
+                    <p>
+                      <a href="https://drive.google.com/file/d/1edt-zS2Bk5lOGtJJ1FLYHybrN5D4DHyZ/view?usp=drive_link" target="_blank" rel="noopener">
+                        Open VO Reel
+                      </a>
+                    </p>
+                  </div>
+                </div>
+
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Audiobook (coming)</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>Slot reserved for audiobook file.</p>
+                  </div>
+                </div>
+
+                <div class="acc-item">
+                  <button class="acc-btn"><span class="label">Animated VO Video (hidden later)</span><span class="plus">+</span></button>
+                  <div class="acc-content">
+                    <p>We’ll implement a hidden toggle when you have it.</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+          </div>
+        </div>
+
+        <div style="margin-top:14px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+          <button class="pill" id="closeStage">Close / Return</button>
+          <div style="opacity:.75; font-size:.85rem;">
+            Tip: use the top nav to jump lanes instantly.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact (stays on main page, not overlay) -->
+    <section id="contact" style="margin: 28px 0 60px;">
+      <div style="border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.05); border-radius: var(--radius); padding: 18px;">
+        <h3 style="margin:0 0 10px; font-family:'Libre Baskerville', serif; font-size: 1.5rem;">Contact</h3>
+        <p style="margin:0 0 10px; opacity:.92; line-height:1.7;">
+          Casting-friendly, small form (we’ll wire it to a free service that works on GitHub Pages).
+        </p>
+        <div class="contact-row">
+          <a href="mailto:emeryscott.artist@gmail.com">emeryscott.artist@gmail.com</a>
+          <a href="https://www.instagram.com/emery_.s/" target="_blank" rel="noopener">Instagram</a>
+          <a href="https://www.facebook.com/emery.scott.71/" target="_blank" rel="noopener">Facebook</a>
+          <a href="https://www.tiktok.com/@emerygtalks" target="_blank" rel="noopener">TikTok</a>
+        </div>
+      </div>
+    </section>
+  </header>
+
+  <script>
+    // --- Make ticker seamless by cloning items once ---
+    (function(){
+      const track = document.getElementById('tickerTrack');
+      const clone = track.cloneNode(true);
+      clone.setAttribute('aria-hidden','true');
+      track.parentElement.appendChild(clone);
+
+      // Wrap both tracks in a single flex row for the -50% animation
+      const wrapper = document.createElement('div');
+      wrapper.style.display = 'flex';
+      wrapper.style.gap = '48px';
+      wrapper.style.whiteSpace = 'nowrap';
+      wrapper.style.willChange = 'transform';
+
+      track.parentElement.insertBefore(wrapper, track);
+      wrapper.appendChild(track);
+      wrapper.appendChild(clone);
+
+      // Use wrapper as the animated element
+      wrapper.className = 'ticker-track';
+      wrapper.id = '';
+      track.style.animation = 'none';
+      clone.style.animation = 'none';
+    })();
+
+    // --- About expand ---
+    const aboutToggle = document.getElementById('aboutToggle');
+    const aboutMore = document.getElementById('aboutMore');
+    aboutToggle.addEventListener('click', () => {
+      aboutMore.classList.toggle('open');
+    });
+
+    // --- Accordion behavior (no auto open) ---
+    function wireAccordions(root){
+      root.querySelectorAll('.acc-item .acc-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const item = btn.closest('.acc-item');
+          item.classList.toggle('open');
+        });
+      });
+    }
+    wireAccordions(document);
+
+    // --- Reveal + Horizontal slider ---
+    const reveal = document.getElementById('reveal');
+    const slider = document.getElementById('slider');
+    const closeStage = document.getElementById('closeStage');
+
+    const panelIndex = { acting:0, modeling:1, writing:2, vo:3 };
+
+    function openPanel(key){
+      // 1) expand vertically
+      if(!reveal.classList.contains('open')){
+        reveal.classList.add('open');
+      }
+      // 2) shift horizontally inside the expanded area
+      const idx = panelIndex[key] ?? 0;
+      slider.style.transform = `translateX(-${idx * 25}%)`;
+
+      // optional: bring reveal into view without "scroll site" feeling
+      // (still a gentle nudge; not a long travel)
+      reveal.scrollIntoView({ behavior:'smooth', block:'start' });
     }
 
-    const stage = document.getElementById(id);
-    stage.classList.remove('exit-left');
-    stage.classList.add('active');
-    currentStage = stage;
-  }
+    document.querySelectorAll('.chooserGo, .navGo').forEach(btn => {
+      btn.addEventListener('click', () => openPanel(btn.dataset.go));
+    });
 
-  function toggleAccordion(button) {
-    const acc = button.parentElement;
-    acc.classList.toggle('open');
-  }
-</script>
+    closeStage.addEventListener('click', () => {
+      reveal.classList.remove('open');
+    });
 
+    // Contact button
+    document.getElementById('navContact').addEventListener('click', () => {
+      document.getElementById('contact').scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  </script>
 </body>
 </html>
