@@ -1,14 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Emery Scott</title>
-  <meta name="description" content="Emery Scott — Actress · Model · Writer · Voice Over" />
+  <meta name="description" content="Emery Scott — Actress · Model · Writer · Voice Over"/>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 
   <style>
     :root{
@@ -16,24 +16,23 @@
       --serif: "Fraunces", serif;
       --sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 
-      /* airy vellum — not bright, not dark */
+      /* breathable warm light (not blank white, not dark) */
       --paper0:#f7f0e7;
       --paper1:#efe3d6;
-      --paper2:#e8d7c6;
 
       --ink:#141312;
       --ink70:rgba(20,19,18,.70);
       --ink55:rgba(20,19,18,.55);
       --ink35:rgba(20,19,18,.35);
 
-      /* accents (restrained) */
+      /* restrained accents */
       --sage:#7e9589;
       --rose:#c79aa8;
       --lav:#a19bb8;
       --gold:#c7ae76;
       --russet:#8a6a55;
 
-      /* ambient “lane wash” (no boxes) */
+      /* section “infection” wash (subtle) */
       --washA: rgba(0,0,0,0);
       --washB: rgba(0,0,0,0);
       --washC: rgba(0,0,0,0);
@@ -42,10 +41,7 @@
       --hair2: rgba(20,19,18,.06);
 
       --ease: cubic-bezier(.2,.9,.2,1);
-      --t: 520ms;
-
-      /* spacing = breath */
-      --padY: clamp(56px, 7.5vw, 92px);
+      --padY: clamp(56px, 7.5vw, 96px);
     }
 
     *{ box-sizing:border-box; }
@@ -55,6 +51,7 @@
       color:var(--ink);
       font-family:var(--sans);
       overflow-x:hidden;
+
       background:
         radial-gradient(1200px 820px at 15% 12%, var(--washA), transparent 62%),
         radial-gradient(1100px 760px at 85% 18%, var(--washB), transparent 64%),
@@ -63,7 +60,7 @@
       transition: background 520ms var(--ease);
     }
 
-    /* subtle grain, clean */
+    /* subtle clean grain */
     body::after{
       content:"";
       position:fixed;
@@ -85,7 +82,7 @@
       z-index:1;
     }
 
-    /* Top bar: name + icons. No tagline. No boxes. */
+    /* Top bar: name + icons only */
     .top{
       position: sticky;
       top:0;
@@ -131,18 +128,12 @@
     }
     .icon svg{ width: 18px; height:18px; }
 
-    /* Sections = breath */
     section{ padding: var(--padY) 0; }
-    .divider{
-      height:1px;
-      background: linear-gradient(to right, transparent, rgba(20,19,18,.14), transparent);
-      opacity:.8;
-    }
 
     /* HERO */
     .hero{
-      padding-top: clamp(44px, 6.5vw, 76px);
-      padding-bottom: clamp(34px, 5.5vw, 64px);
+      padding-top: clamp(44px, 6.5vw, 80px);
+      padding-bottom: clamp(34px, 5.5vw, 66px);
     }
     .hero-grid{
       display:grid;
@@ -165,6 +156,8 @@
       color: var(--ink55);
       font-size: 1.02rem;
     }
+
+    /* image = atmospheric plane, not a “card” */
     .hero-img{
       aspect-ratio: 4/5;
       width:100%;
@@ -176,19 +169,35 @@
         url("./assets/images/hero.jpg");
       background-size: cover;
       background-position: 50% 18%;
-      box-shadow: 0 26px 80px rgba(20,19,18,.12);
-      border: 1px solid rgba(20,19,18,.06);
+      box-shadow: 0 26px 80px rgba(20,19,18,.10);
+      border: none;
     }
 
-    /* Thesis quote: big, still */
+    /* THESIS QUOTE: big thesis, not a tag */
+    .thesis{
+      padding-top: clamp(52px, 7vw, 96px);
+      padding-bottom: clamp(52px, 7vw, 96px);
+      position:relative;
+    }
+    .thesis::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(900px 540px at 50% 10%, rgba(255,255,255,.26), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.02));
+      pointer-events:none;
+      z-index:0;
+    }
+    .thesis .wrap{ position:relative; z-index:1; }
     .thesis blockquote{
       margin:0 auto;
-      max-width: 76ch;
+      max-width: 78ch;
       text-align:center;
       font-family: var(--serif);
       font-weight: 300;
-      font-size: clamp(1.25rem, 1.65vw, 1.55rem);
-      line-height: 1.95;
+      font-size: clamp(1.30rem, 1.75vw, 1.62rem);
+      line-height: 1.98;
       letter-spacing:.01em;
       color: var(--ink70);
     }
@@ -203,7 +212,7 @@
       color: var(--ink35);
     }
 
-    /* About: bigger, airy */
+    /* ABOUT */
     .about-grid{
       display:grid;
       grid-template-columns: 1.05fr .95fr;
@@ -211,56 +220,73 @@
       align-items:center;
     }
     .about-lead{
-      margin:0 0 14px;
-      font-size: clamp(1.06rem, 1.15vw, 1.20rem);
-      line-height: 2.0;
+      margin:0;
+      font-size: clamp(1.08rem, 1.2vw, 1.22rem);
+      line-height: 2.05;
       color: var(--ink70);
-      max-width: 76ch;
+      max-width: 78ch;
     }
+
+    /* “storyteller” feather float (toward viewer) — NOT underlined, NOT clickable */
     .storyteller{
-      font-family: var(--serif);
-      font-weight: 600;
-      color: var(--ink);
-      position:relative;
       display:inline-block;
+      font-weight: 600;
+      transform: translateZ(0);
+      transform-style: preserve-3d;
+      transition: transform 520ms var(--ease);
+      cursor: default;
     }
-    .storyteller::after{
-      content:"";
-      position:absolute;
-      left:-2px; right:-2px; bottom:-6px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(199,174,118,.75), transparent);
-      transform: scaleX(.75);
-      transform-origin:center;
-      opacity:.9;
+    .about-lead .storyteller:hover{
+      transform: perspective(700px) translateZ(12px);
     }
+
+    /* Dropdown trigger text: underlined and clickable (prose, not button) */
     .about-toggle{
+      margin-top: 14px;
       border:0;
       background:none;
       padding:0;
       cursor:pointer;
       color: var(--ink55);
-      font-size: 1rem;
-      line-height: 1.7;
+      font-size: 1.02rem;
+      line-height: 1.8;
       text-decoration: underline;
-      text-underline-offset: 5px;
       text-decoration-thickness: 1px;
+      text-underline-offset: 6px;
     }
     .about-toggle:hover{ color: var(--ink); }
+
     .about-more{
       overflow:hidden;
       max-height:0;
-      transition: max-height 650ms var(--ease);
+      transition: max-height 720ms var(--ease);
     }
-    .about-more.open{ max-height: 1600px; }
+    .about-more.open{ max-height: 1800px; }
     .about-more p{
-      margin: 18px 0 0;
+      margin: 20px 0 0;
       white-space: pre-line;
-      line-height: 2.0;
-      font-size: 1.03rem;
+      line-height: 2.02;
+      font-size: 1.05rem;
       color: var(--ink70);
-      max-width: 78ch;
+      max-width: 80ch;
     }
+
+    .about-close{
+      margin-top: 18px;
+      display:inline-block;
+      border:0;
+      background:none;
+      padding:0;
+      cursor:pointer;
+      color: var(--ink55);
+      font-size: 1.02rem;
+      line-height: 1.8;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 6px;
+    }
+    .about-close:hover{ color: var(--ink); }
+
     .headshot{
       aspect-ratio: 4/5;
       width:100%;
@@ -271,20 +297,22 @@
         url("./assets/images/headshot.jpg");
       background-size: cover;
       background-position: 50% 20%;
-      box-shadow: 0 26px 80px rgba(20,19,18,.10);
-      border: 1px solid rgba(20,19,18,.06);
+      box-shadow: 0 26px 80px rgba(20,19,18,.08);
+      border:none;
     }
 
-    /* CENTER: progressive disclosure */
-    .center{
-      padding: clamp(66px, 8vw, 110px) 0;
+    /* PORTFOLIO CHOOSER (center, breathable) */
+    .work{
+      padding-top: clamp(70px, 9vw, 120px);
+      padding-bottom: clamp(60px, 8vw, 110px);
       text-align:center;
+      position:relative;
     }
-    .center h2{
-      margin:0 0 14px;
+    .work h2{
+      margin:0 0 16px;
       font-family: var(--serif);
       font-weight: 400;
-      font-size: 1.65rem;
+      font-size: 1.75rem;
       color: var(--ink70);
       letter-spacing:.01em;
     }
@@ -297,7 +325,7 @@
     }
     .btn{
       border: 1px solid rgba(20,19,18,.12);
-      background: rgba(255,255,255,.18);
+      background: rgba(255,255,255,.14);
       color: var(--ink70);
       padding: 12px 16px;
       border-radius: 999px;
@@ -309,52 +337,46 @@
     }
     .btn:hover{
       transform: translateY(-1px);
-      background: rgba(255,255,255,.30);
+      background: rgba(255,255,255,.26);
       color: var(--ink);
     }
-    .btn.active{ opacity:.70; transform: scale(.96); }
+    .btn.active{ opacity:.70; transform: scale(.98); }
     .btn.dim{ opacity:.42; }
 
-    /* Submenus appear only when needed */
     .subnav{
-      margin-top: 20px;
-      min-height: 56px; /* keeps breathing so it doesn't “jump” */
+      margin-top: 22px;
+      min-height: 56px;
     }
     .subnav[hidden]{ display:none !important; }
 
-    /* Stage: one thing at a time */
-    .stage{
-      margin-top: 34px;
-      padding-top: 10px;
-    }
+    /* Stage: one visible thing at a time */
+    .stage{ margin-top: 34px; }
     .panel{ display:none; }
     .panel.active{ display:block; animation: in 520ms var(--ease) both; }
     @keyframes in{ from{opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
     .panel-head{
-      max-width: 78ch;
-      margin: 0 auto 24px;
+      max-width: 80ch;
+      margin: 0 auto 26px;
       text-align:center;
     }
     .panel-head h3{
       margin:0;
       font-family: var(--serif);
       font-weight: 600;
-      font-size: 2.15rem;
+      font-size: 2.25rem;
       letter-spacing:.01em;
     }
     .panel-head p{
       margin: 12px auto 0;
-      max-width: 72ch;
-      line-height: 1.9;
+      max-width: 74ch;
+      line-height: 1.95;
       color: var(--ink55);
+      font-size: 1.02rem;
     }
 
-    /* Media sizing: NOT huge, intentional */
-    .media{
-      max-width: 860px;
-      margin: 0 auto;
-    }
+    /* Intentional media size (not huge) */
+    .media{ max-width: 860px; margin: 0 auto; }
     .video{
       width:100%;
       aspect-ratio: 16/9;
@@ -362,11 +384,10 @@
       border-radius: 22px;
       background:#000;
       display:block;
-      box-shadow: 0 18px 60px rgba(20,19,18,.12);
-      border: 1px solid rgba(20,19,18,.06);
+      box-shadow: 0 20px 70px rgba(20,19,18,.10);
     }
 
-    /* Gallery: real space (no box) */
+    /* Galleries: airy rhythm; tiles are placeholders you’ll swap for images */
     .gallery{
       max-width: 980px;
       margin: 0 auto;
@@ -377,19 +398,14 @@
     .img{
       border-radius: 22px;
       overflow:hidden;
-      background: rgba(255,255,255,.18);
-      border: 1px solid rgba(20,19,18,.06);
-      box-shadow: 0 16px 50px rgba(20,19,18,.08);
+      background: rgba(255,255,255,.12);
       min-height: 180px;
       position:relative;
+      box-shadow: 0 16px 60px rgba(20,19,18,.07);
     }
-    /* different sizes for visual rhythm */
-    .img.a{ grid-column: span 7; min-height: 320px; }
-    .img.b{ grid-column: span 5; min-height: 320px; }
-    .img.c{ grid-column: span 4; min-height: 240px; }
-    .img.d{ grid-column: span 4; min-height: 240px; }
-    .img.e{ grid-column: span 4; min-height: 240px; }
-
+    .img.a{ grid-column: span 7; min-height: 340px; }
+    .img.b{ grid-column: span 5; min-height: 340px; }
+    .img.c,.img.d,.img.e{ grid-column: span 4; min-height: 250px; }
     .img::after{
       content: attr(data-label);
       position:absolute;
@@ -401,92 +417,106 @@
       color: var(--ink35);
     }
 
+    /* Digitals: structured layout hint */
+    .digitals-note{
+      max-width: 76ch;
+      margin: 0 auto 18px;
+      color: var(--ink55);
+      line-height: 1.9;
+      text-align:center;
+    }
+
     /* Writing reading */
     .reading{
       max-width: 74ch;
       margin: 0 auto;
-      line-height: 2.0;
+      line-height: 2.05;
       color: var(--ink70);
-      font-size: 1.05rem;
+      font-size: 1.06rem;
+      text-align:left;
     }
     .pieceTitle{
       font-family: var(--serif);
       font-weight: 600;
-      font-size: 1.6rem;
+      font-size: 1.7rem;
       margin: 0 0 14px;
       color: var(--ink);
+      text-align:left;
     }
 
-    /* VO: audio-first */
+    /* VO audio */
     .audioStack{
       max-width: 740px;
       margin: 0 auto;
       display:grid;
-      gap: 16px;
+      gap: 18px;
+      text-align:left;
     }
-    audio{
-      width:100%;
+    .audioLabel{
+      letter-spacing:.16em;
+      text-transform: uppercase;
+      font-size: .74rem;
+      color: var(--ink35);
+      margin-bottom: 8px;
     }
-    .voNote{
-      color: var(--ink55);
-      line-height: 1.85;
-      max-width: 70ch;
-      margin: 0 auto;
-      text-align:center;
-    }
+    audio{ width:100%; }
 
-    /* Reviews ticker (under portfolio, no box) */
+    /* REVIEWS: slow drifting multi-line blocks, no borders */
     .reviews{
-      padding: 46px 0 18px;
+      padding-top: clamp(64px, 8vw, 110px);
+      padding-bottom: clamp(40px, 6vw, 84px);
       position:relative;
     }
-    .reviews::before,.reviews::after{
-      content:"";
-      position:absolute;
-      top:0; bottom:0;
-      width: 90px;
-      z-index:2;
-      pointer-events:none;
+    .reviews-mask{
+      overflow:hidden;
+      mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%);
     }
-    .reviews::before{
-      left:0;
-      background: linear-gradient(to right, rgba(247,240,231,1), rgba(247,240,231,0));
-    }
-    .reviews::after{
-      right:0;
-      background: linear-gradient(to left, rgba(247,240,231,1), rgba(247,240,231,0));
-    }
-    .track{
+    .reviews-rail{
       display:flex;
-      gap: 56px;
-      white-space:nowrap;
+      gap: 34px;
+      align-items: stretch;
+      width: max-content;
       will-change: transform;
-      animation: marquee 62s linear infinite;
-      color: var(--ink55);
-      font-family: var(--serif);
-      font-size: 1.02rem;
-      font-style: italic;
+      animation: drift 95s linear infinite;
     }
-    .track span{
-      font-style: normal;
-      margin-left: 10px;
+    @keyframes drift{
+      from{ transform: translateX(0); }
+      to{ transform: translateX(-50%); }
+    }
+    .review{
+      flex: 0 0 auto;
+      width: min(540px, 82vw);
+      padding: 6px 4px;
+    }
+    .review p{
+      margin:0;
+      font-family: var(--serif);
+      font-weight: 300;
+      font-size: clamp(1.06rem, 1.35vw, 1.24rem);
+      line-height: 1.95;
+      color: var(--ink70);
+      font-style: italic;
+      white-space: normal;
+    }
+    .review span{
+      display:block;
+      margin-top: 14px;
       font-family: var(--sans);
+      font-style: normal;
       letter-spacing: .18em;
       text-transform: uppercase;
       font-size: .72rem;
       color: var(--ink35);
     }
-    @keyframes marquee{
-      from{ transform: translateX(0); }
-      to{ transform: translateX(-50%); }
-    }
 
-    /* Contact form (GitHub Pages friendly via Formspree) */
+    /* CONTACT */
     .contact{
-      padding: clamp(70px, 9vw, 120px) 0;
+      padding-top: clamp(70px, 9vw, 120px);
+      padding-bottom: clamp(70px, 9vw, 120px);
     }
     .contact-head{
-      max-width: 70ch;
+      max-width: 72ch;
       margin: 0 auto 22px;
       text-align:center;
     }
@@ -494,7 +524,7 @@
       margin:0;
       font-family: var(--serif);
       font-weight: 600;
-      font-size: 2.1rem;
+      font-size: 2.2rem;
       letter-spacing:.01em;
     }
     .contact-head p{
@@ -521,11 +551,12 @@
       letter-spacing:.16em;
       text-transform: uppercase;
       color: var(--ink35);
+      text-align:left;
     }
     input, textarea{
       font: inherit;
       border: 1px solid rgba(20,19,18,.10);
-      background: rgba(255,255,255,.24);
+      background: rgba(255,255,255,.18);
       padding: 12px 12px;
       border-radius: 18px;
       outline:none;
@@ -541,7 +572,7 @@
       justify-self:center;
       margin-top: 6px;
       border: 1px solid rgba(20,19,18,.14);
-      background: rgba(255,255,255,.20);
+      background: rgba(255,255,255,.16);
       color: var(--ink70);
       padding: 12px 18px;
       border-radius: 999px;
@@ -551,7 +582,7 @@
       text-transform: uppercase;
       transition: transform 260ms var(--ease), background 260ms var(--ease);
     }
-    .send:hover{ transform: translateY(-1px); background: rgba(255,255,255,.30); color: var(--ink); }
+    .send:hover{ transform: translateY(-1px); background: rgba(255,255,255,.26); color: var(--ink); }
     .fineprint{
       text-align:center;
       color: var(--ink35);
@@ -560,17 +591,19 @@
       line-height: 1.7;
     }
 
-    /* Responsive */
+    a{ color: inherit; }
+    a:hover{ color: var(--ink); }
+
     @media (max-width: 900px){
       .hero-grid, .about-grid{ grid-template-columns: 1fr; }
       .row{ grid-template-columns: 1fr; }
-      .img.a,.img.b{ grid-column: span 12; }
-      .img.c,.img.d,.img.e{ grid-column: span 12; }
+      .img.a,.img.b,.img.c,.img.d,.img.e{ grid-column: span 12; }
     }
     @media (prefers-reduced-motion: reduce){
-      .track{ animation:none; }
       body{ transition:none; }
       .panel.active{ animation:none; }
+      .reviews-rail{ animation:none; }
+      .storyteller{ transition:none; }
     }
   </style>
 </head>
@@ -614,8 +647,6 @@
     </div>
   </section>
 
-  <div class="divider"></div>
-
   <!-- THESIS -->
   <section class="thesis">
     <div class="wrap">
@@ -626,8 +657,6 @@
     </div>
   </section>
 
-  <div class="divider"></div>
-
   <!-- ABOUT -->
   <section>
     <div class="wrap about-grid">
@@ -637,9 +666,7 @@
           In brief… I am a <span class="storyteller">storyteller</span>.
         </p>
 
-        <button class="about-toggle" id="aboutToggle" type="button">
-          but are you not curious what I was going to write? You made it thus far… What is but one more click?
-        </button>
+        <button class="about-toggle" id="aboutToggle" type="button">what is but one more click?</button>
 
         <div class="about-more" id="aboutMore" aria-hidden="true">
           <p>
@@ -648,6 +675,7 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
      In modeling, I have enjoyed walking the runway for the CCP Cancer Awareness Fashion Show and collaborating on various concept shoots with independent photographers.
      Fundamentally, to be an interesting artist, you have to be an interested person: in people, in life, in things that you both like and abhor. In my free time, I hike the wilds of Central Park, use the NYPL like my office, draw, play guitar, roller skate, and pretend like I have free time.
           </p>
+          <button class="about-close" id="aboutClose" type="button">You read it all, did you? Fantastic!</button>
         </div>
       </div>
 
@@ -655,14 +683,11 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
     </div>
   </section>
 
-  <div class="divider"></div>
-
-  <!-- CENTER: 1) Choose discipline 2) Choose type 3) Show one thing -->
-  <section class="center" id="portfolio">
+  <!-- WORK -->
+  <section class="work" id="work">
     <div class="wrap">
       <h2>Choose what you need</h2>
 
-      <!-- Primary -->
       <div class="btnRow" id="primaryRow" aria-label="Primary choices">
         <button class="btn p" data-primary="acting" type="button">Acting</button>
         <button class="btn p" data-primary="modeling" type="button">Modeling</button>
@@ -670,76 +695,50 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
         <button class="btn p" data-primary="vo" type="button">Voice Over</button>
       </div>
 
-      <!-- Secondary -->
       <div class="subnav" id="secondaryRow" hidden aria-label="Secondary choices"></div>
 
-      <!-- Tertiary -->
-      <div class="subnav" id="tertiaryRow" hidden aria-label="Tertiary choices"></div>
-
-      <!-- Stage -->
       <div class="stage" id="stage" aria-live="polite">
-        <!-- ACTING: Photos -->
+        <!-- ACTING -->
+        <div class="panel" id="acting-film">
+          <div class="panel-head"><h3>Acting — Film/TV</h3><p>Replace with your Film/TV video(s) or clips.</p></div>
+          <div class="media"><iframe class="video" src="https://www.youtube.com/embed/jZ2nSJOgsv0" title="Film/TV" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="panel" id="acting-stage">
+          <div class="panel-head"><h3>Acting — Stage</h3><p>Stage-focused performance slot.</p></div>
+          <div class="media"><iframe class="video" src="https://www.youtube.com/embed/jZ2nSJOgsv0" title="Stage (placeholder)" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="panel" id="acting-commercial">
+          <div class="panel-head"><h3>Acting — Commercial</h3><p>Commercial performance slot.</p></div>
+          <div class="media"><iframe class="video" src="https://www.youtube.com/embed/jZ2nSJOgsv0" title="Commercial (placeholder)" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="panel" id="acting-vocals">
+          <div class="panel-head"><h3>Acting — Vocals</h3><p>Vocals—controlled scale, casting-friendly.</p></div>
+          <div class="media"><iframe class="video" src="https://www.youtube.com/embed/LWhhPI8B5zk" title="Vocals" allowfullscreen></iframe></div>
+        </div>
+
+        <div class="panel" id="acting-dance">
+          <div class="panel-head"><h3>Acting — Dance</h3><p>Dance performance slot.</p></div>
+          <div class="media"><iframe class="video" src="https://www.youtube.com/embed/D1lYyGvt0Xg" title="Dance" allowfullscreen></iframe></div>
+        </div>
+
         <div class="panel" id="acting-photos">
-          <div class="panel-head">
-            <h3>Acting — Photos</h3>
-            <p>Film · Commercial · Stage. One gallery at a time.</p>
-          </div>
-          <div class="gallery" id="actingGallery">
-            <div class="img a" data-label="Replace with Film stills"></div>
-            <div class="img b" data-label="Replace with Film stills"></div>
-            <div class="img c" data-label="Replace with Stage"></div>
-            <div class="img d" data-label="Replace with Commercial"></div>
-            <div class="img e" data-label="Replace with Stage"></div>
-          </div>
-        </div>
-
-        <!-- ACTING: Reels container -->
-        <div class="panel" id="acting-reels-film">
-          <div class="panel-head">
-            <h3>Acting — Reels · Film/TV</h3>
-            <p>Intentional scale. No wall-of-video.</p>
-          </div>
-          <div class="media">
-            <iframe class="video" src="https://www.youtube.com/embed/jZ2nSJOgsv0" title="Film/TV" allowfullscreen></iframe>
-          </div>
-        </div>
-
-        <div class="panel" id="acting-reels-commercial">
-          <div class="panel-head">
-            <h3>Acting — Reels · Commercial</h3>
-            <p>Swap in your commercial link(s).</p>
-          </div>
-          <div class="media">
-            <iframe class="video" src="https://www.youtube.com/embed/jZ2nSJOgsv0" title="Commercial (placeholder)" allowfullscreen></iframe>
-          </div>
-        </div>
-
-        <div class="panel" id="acting-reels-vocals">
-          <div class="panel-head">
-            <h3>Acting — Reels · Vocals</h3>
-            <p>Performance, clean and focused.</p>
-          </div>
-          <div class="media">
-            <iframe class="video" src="https://www.youtube.com/embed/LWhhPI8B5zk" title="Vocals" allowfullscreen></iframe>
-          </div>
-        </div>
-
-        <div class="panel" id="acting-reels-dance">
-          <div class="panel-head">
-            <h3>Acting — Reels · Dance</h3>
-            <p>Movement, not spectacle.</p>
-          </div>
-          <div class="media">
-            <iframe class="video" src="https://www.youtube.com/embed/D1lYyGvt0Xg" title="Dance" allowfullscreen></iframe>
+          <div class="panel-head"><h3>Acting — Photos</h3><p>Film · Stage · Commercial stills. Replace tiles with real images.</p></div>
+          <div class="gallery">
+            <div class="img a" data-label="Film still"></div>
+            <div class="img b" data-label="Film still"></div>
+            <div class="img c" data-label="Stage"></div>
+            <div class="img d" data-label="Commercial"></div>
+            <div class="img e" data-label="Stage"></div>
           </div>
         </div>
 
         <!-- MODELING -->
         <div class="panel" id="modeling-digitals">
-          <div class="panel-head">
-            <h3>Modeling — Digitals</h3>
-            <p>Structured. Agency-readable. Replace tiles with real images.</p>
-          </div>
+          <div class="panel-head"><h3>Modeling — Digitals</h3><p>Structured, clean. Replace tiles with your front/back/sides/etc.</p></div>
+          <div class="digitals-note">Front · Back · Side Left · Side Right · Half-up · Headshot</div>
           <div class="gallery">
             <div class="img a" data-label="Front"></div>
             <div class="img b" data-label="Back"></div>
@@ -750,10 +749,7 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
         </div>
 
         <div class="panel" id="modeling-runway">
-          <div class="panel-head">
-            <h3>Modeling — Runway</h3>
-            <p>Photos + optional walk video (when you have it).</p>
-          </div>
+          <div class="panel-head"><h3>Modeling — Runway</h3><p>Runway photos + walk video slot.</p></div>
           <div class="gallery">
             <div class="img a" data-label="Runway image"></div>
             <div class="img b" data-label="Runway image"></div>
@@ -761,32 +757,14 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
             <div class="img d" data-label="Runway image"></div>
             <div class="img e" data-label="Runway image"></div>
           </div>
-          <div class="spacer"></div>
+          <div style="height:22px;"></div>
           <div class="media">
-            <!-- placeholder: swap link when ready -->
-            <iframe class="video" src="https://www.youtube.com/embed/jZ2nSJOgsv0" title="Walk (placeholder)" allowfullscreen></iframe>
-          </div>
-        </div>
-
-        <div class="panel" id="modeling-commercial">
-          <div class="panel-head">
-            <h3>Modeling — Commercial</h3>
-            <p>Clean, clear, no clutter.</p>
-          </div>
-          <div class="gallery">
-            <div class="img a" data-label="Commercial modeling"></div>
-            <div class="img b" data-label="Commercial modeling"></div>
-            <div class="img c" data-label="Commercial modeling"></div>
-            <div class="img d" data-label="Commercial modeling"></div>
-            <div class="img e" data-label="Commercial modeling"></div>
+            <iframe class="video" src="https://www.youtube.com/embed/jZ2nSJOgsv0" title="Runway walk (placeholder)" allowfullscreen></iframe>
           </div>
         </div>
 
         <div class="panel" id="modeling-editorial">
-          <div class="panel-head">
-            <h3>Modeling — Editorial</h3>
-            <p>Conceptual, mythic, but still professional.</p>
-          </div>
+          <div class="panel-head"><h3>Modeling — Editorial</h3><p>Conceptual, mythic, still professional.</p></div>
           <div class="gallery">
             <div class="img a" data-label="Editorial"></div>
             <div class="img b" data-label="Editorial"></div>
@@ -796,12 +774,20 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
           </div>
         </div>
 
+        <div class="panel" id="modeling-commercial">
+          <div class="panel-head"><h3>Modeling — Commercial</h3><p>Clean, clear, easy to scan.</p></div>
+          <div class="gallery">
+            <div class="img a" data-label="Commercial modeling"></div>
+            <div class="img b" data-label="Commercial modeling"></div>
+            <div class="img c" data-label="Commercial modeling"></div>
+            <div class="img d" data-label="Commercial modeling"></div>
+            <div class="img e" data-label="Commercial modeling"></div>
+          </div>
+        </div>
+
         <!-- WRITING -->
         <div class="panel" id="writing-piece-1">
-          <div class="panel-head">
-            <h3>Writing — Piece I</h3>
-            <p>Warmest room. Words first.</p>
-          </div>
+          <div class="panel-head"><h3>Writing — Piece I</h3><p>Placeholder. Paste your writing when ready.</p></div>
           <div class="reading">
             <div class="pieceTitle">Title Placeholder</div>
             <p>Paste your writing here.</p>
@@ -809,10 +795,7 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
         </div>
 
         <div class="panel" id="writing-piece-2">
-          <div class="panel-head">
-            <h3>Writing — Piece II</h3>
-            <p>Intimate. Clear. Readable.</p>
-          </div>
+          <div class="panel-head"><h3>Writing — Piece II</h3><p>Placeholder. Paste your writing when ready.</p></div>
           <div class="reading">
             <div class="pieceTitle">Title Placeholder</div>
             <p>Paste your writing here.</p>
@@ -820,43 +803,69 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
         </div>
 
         <div class="panel" id="writing-piece-3">
-          <div class="panel-head">
-            <h3>Writing — Piece III</h3>
-            <p>Minimal noise. Maximum voice.</p>
-          </div>
+          <div class="panel-head"><h3>Writing — Piece III</h3><p>Placeholder. Paste your writing when ready.</p></div>
           <div class="reading">
             <div class="pieceTitle">Title Placeholder</div>
             <p>Paste your writing here.</p>
           </div>
         </div>
 
-        <!-- VO -->
-        <div class="panel" id="vo-demos">
-          <div class="panel-head">
-            <h3>Voice Over — Demos</h3>
-            <p>Audio-first. No face. No distractions.</p>
+        <div class="panel" id="writing-piece-4">
+          <div class="panel-head"><h3>Writing — Piece IV</h3><p>Placeholder. Paste your writing when ready.</p></div>
+          <div class="reading">
+            <div class="pieceTitle">Title Placeholder</div>
+            <p>Paste your writing here.</p>
           </div>
-          <p class="voNote">
-            Your reel is currently on Drive. For best casting UX, download the MP3 and host it in <strong>/assets/audio/</strong>,
-            then it plays instantly here.
-          </p>
-          <div class="spacer"></div>
+        </div>
+
+        <!-- VO (audio only) -->
+        <div class="panel" id="vo-reel">
+          <div class="panel-head"><h3>Voice Over — Reel</h3><p>Audio-first. No face. No distractions.</p></div>
           <div class="audioStack">
-            <!-- Replace src with local files like: ./assets/audio/vo-reel.mp3 -->
             <div>
-              <div style="letter-spacing:.16em;text-transform:uppercase;font-size:.76rem;color:var(--ink35);margin-bottom:8px;">VO Reel (placeholder)</div>
+              <div class="audioLabel">VO Reel</div>
               <audio controls preload="none">
-                <source src="./assets/audio/vo-reel.mp3" type="audio/mpeg" />
+                <source src="./assets/audio/vo-reel.mp3" type="audio/mpeg"/>
               </audio>
             </div>
+            <div style="color:var(--ink55);line-height:1.85;">
+              Current reel link (optional): <a href="https://drive.google.com/file/d/1edt-zS2Bk5lOGtJJ1FLYHybrN5D4DHyZ/view?usp=drive_link" target="_blank" rel="noopener">Drive</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" id="vo-audiobook">
+          <div class="panel-head"><h3>Voice Over — Audiobook</h3><p>Audio sample.</p></div>
+          <div class="audioStack">
             <div>
-              <div style="letter-spacing:.16em;text-transform:uppercase;font-size:.76rem;color:var(--ink35);margin-bottom:8px;">Audiobook (placeholder)</div>
+              <div class="audioLabel">Audiobook</div>
               <audio controls preload="none">
-                <source src="./assets/audio/audiobook-sample.mp3" type="audio/mpeg" />
+                <source src="./assets/audio/audiobook-sample.mp3" type="audio/mpeg"/>
               </audio>
             </div>
-            <div style="text-align:center;color:var(--ink55);line-height:1.85;">
-              Or open current reel: <a href="https://drive.google.com/file/d/1edt-zS2Bk5lOGtJJ1FLYHybrN5D4DHyZ/view?usp=drive_link" target="_blank" rel="noopener">Drive link</a>
+          </div>
+        </div>
+
+        <div class="panel" id="vo-commercial">
+          <div class="panel-head"><h3>Voice Over — Commercial</h3><p>Audio sample.</p></div>
+          <div class="audioStack">
+            <div>
+              <div class="audioLabel">Commercial</div>
+              <audio controls preload="none">
+                <source src="./assets/audio/vo-commercial.mp3" type="audio/mpeg"/>
+              </audio>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" id="vo-character">
+          <div class="panel-head"><h3>Voice Over — Character</h3><p>Audio sample.</p></div>
+          <div class="audioStack">
+            <div>
+              <div class="audioLabel">Character</div>
+              <audio controls preload="none">
+                <source src="./assets/audio/vo-character.mp3" type="audio/mpeg"/>
+              </audio>
             </div>
           </div>
         </div>
@@ -865,20 +874,39 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
     </div>
   </section>
 
-  <!-- Reviews ticker under portfolio -->
-  <section class="reviews">
+  <!-- REVIEWS (slow drifting blocks) -->
+  <section class="reviews" aria-label="Reviews">
     <div class="wrap">
-      <div class="track" id="track">
-        <div>“[She’s] like a Perfect Apple. Like I want to take a bite, but also I can’t.” <span>— A Random Woman</span></div>
-        <div>“[She] really impressed me tonight. raised his Modelo” <span>— Casting Director</span></div>
-        <div>“I hadn’t had that much fun at a shoot in a long time.” <span>— Photographer</span></div>
-        <div>“If I could see inside [her] head I feel like I’d be overwhelmed, but [she’s] always on time and off book.” <span>— Director</span></div>
-        <div>“[She is] trying to do a lot, but if there’s anyone who can handle a lot it’s [her].” <span>— Editor</span></div>
+      <div class="reviews-mask">
+        <div class="reviews-rail" id="reviewsRail">
+          <article class="review">
+            <p>“[She’s] like a Perfect Apple. Like I want to take a bite, but also I can’t.”</p>
+            <span>— A Random Woman</span>
+          </article>
+
+          <article class="review">
+            <p>“[She] really impressed me tonight. raised his Modelo”</p>
+            <span>— Casting Director</span>
+          </article>
+
+          <article class="review">
+            <p>“I hadn’t had that much fun at a shoot in a long time.”</p>
+            <span>— Photographer</span>
+          </article>
+
+          <article class="review">
+            <p>“If I could see inside [her] head I feel like I’d be overwhelmed, but [she’s] always on time and off book.”</p>
+            <span>— Director</span>
+          </article>
+
+          <article class="review">
+            <p>“[She is] trying to do a lot, but if there’s anyone who can handle a lot it’s [her].”</p>
+            <span>— Editor</span>
+          </article>
+        </div>
       </div>
     </div>
   </section>
-
-  <div class="divider"></div>
 
   <!-- CONTACT -->
   <section class="contact" id="contact">
@@ -888,140 +916,112 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
         <p>Short form. Casting-friendly. No clutter.</p>
       </div>
 
-      <!-- Formspree: create a free endpoint and replace action URL -->
+      <!-- GitHub Pages friendly: create a free Formspree endpoint and replace REPLACE_ME -->
       <form action="https://formspree.io/f/REPLACE_ME" method="POST">
         <div class="row">
-          <label>
-            Name
-            <input name="name" autocomplete="name" required />
-          </label>
-          <label>
-            Email
-            <input name="email" type="email" autocomplete="email" required />
-          </label>
+          <label>Name<input name="name" autocomplete="name" required/></label>
+          <label>Email<input name="email" type="email" autocomplete="email" required/></label>
         </div>
-
-        <label>
-          Message
-          <textarea name="message" required></textarea>
-        </label>
-
+        <label>Message<textarea name="message" required></textarea></label>
         <button class="send" type="submit">Send</button>
-
-        <div class="fineprint">
-          Prefer email? <a href="mailto:emery.g.scott@gmail.com">emery.g.scott@gmail.com</a>
-        </div>
+        <div class="fineprint">Prefer email? <a href="mailto:emery.g.scott@gmail.com">emery.g.scott@gmail.com</a></div>
       </form>
     </div>
   </section>
 
   <script>
-    // Seamless ticker loop (clone once)
-    (function(){
-      const t = document.getElementById('track');
-      const clone = t.cloneNode(true);
-      clone.setAttribute('aria-hidden','true');
-      t.parentElement.appendChild(clone);
+    // About expand/collapse
+    const aboutToggle = document.getElementById('aboutToggle');
+    const aboutClose  = document.getElementById('aboutClose');
+    const aboutMore   = document.getElementById('aboutMore');
 
+    function setAbout(open){
+      aboutMore.classList.toggle('open', open);
+      aboutMore.setAttribute('aria-hidden', String(!open));
+    }
+    aboutToggle.addEventListener('click', () => setAbout(!aboutMore.classList.contains('open')));
+    aboutClose.addEventListener('click', () => setAbout(false));
+
+    // Reviews seamless drift: clone rail once
+    (function(){
+      const rail = document.getElementById('reviewsRail');
+      if(!rail) return;
+      const clone = rail.cloneNode(true);
+      clone.setAttribute('aria-hidden','true');
+      rail.parentElement.appendChild(clone);
+
+      // wrap both rails to animate as one continuous strip
       const wrapper = document.createElement('div');
-      wrapper.className = 'track';
-      wrapper.style.animation = getComputedStyle(t).animation;
-      t.style.animation = 'none';
+      wrapper.className = 'reviews-rail';
+      wrapper.style.animation = getComputedStyle(rail).animation;
+
+      // stop animation on originals and move into wrapper
+      rail.style.animation = 'none';
       clone.style.animation = 'none';
 
-      t.parentElement.insertBefore(wrapper, t);
-      wrapper.appendChild(t);
+      const mask = rail.parentElement;
+      mask.insertBefore(wrapper, rail);
+      wrapper.appendChild(rail);
       wrapper.appendChild(clone);
     })();
 
-    // About expand
-    const aboutToggle = document.getElementById('aboutToggle');
-    const aboutMore = document.getElementById('aboutMore');
-    aboutToggle.addEventListener('click', () => {
-      const open = aboutMore.classList.toggle('open');
-      aboutMore.setAttribute('aria-hidden', String(!open));
-    });
-
-    // Progressive disclosure config
+    // Progressive disclosure (one thing at a time)
     const secondaryRow = document.getElementById('secondaryRow');
-    const tertiaryRow = document.getElementById('tertiaryRow');
     const panels = Array.from(document.querySelectorAll('.panel'));
     const primaryBtns = Array.from(document.querySelectorAll('.btn.p'));
 
-    // Track current state for event delegation
-    let currentPrimary = null;
-    let currentSecondary = null;
-
     const config = {
-  acting: {
-    wash: { A:'rgba(126,149,137,.18)', B:'rgba(161,155,184,.10)', C:'rgba(199,174,118,.07)' },
-    secondary: [
-      { key:'film', label:'Film/TV' },
-      { key:'stage', label:'Stage' },
-      { key:'commercial', label:'Commercial' },
-      { key:'vocals', label:'Vocals' },
-      { key:'dance', label:'Dance' },
-      { key:'photos', label:'Photos' }
-    ],
-    tertiary: {
-      // only if you want an extra step; otherwise delete this block entirely
-      photos: [
-        { key:'film', label:'Film' },
-        { key:'stage', label:'Stage' },
-        { key:'commercial', label:'Commercial' }
-      ]
-    },
-    panelId: (sec, tri) => {
-      if (sec === 'photos') return 'acting-photos'; // you can later switch gallery sets by tri
-      return `acting-reels-${sec}`; // acting-reels-film, acting-reels-vocals, etc.
-    }
-  },
+      acting: {
+        wash: { A:'rgba(126,149,137,.16)', B:'rgba(161,155,184,.10)', C:'rgba(199,174,118,.06)' },
+        secondary: [
+          { key:'film', label:'Film/TV' },
+          { key:'stage', label:'Stage' },
+          { key:'commercial', label:'Commercial' },
+          { key:'vocals', label:'Vocals' },
+          { key:'dance', label:'Dance' },
+          { key:'photos', label:'Photos' }
+        ],
+        panelId: (sec) => `acting-${sec}`
+      },
 
-  modeling: {
-    wash: { A:'rgba(199,154,168,.18)', B:'rgba(199,174,118,.12)', C:'rgba(126,149,137,.06)' },
-    secondary: [
-      { key:'digitals', label:'Digitals' },
-      { key:'runway', label:'Runway' },
-      { key:'editorial', label:'Editorial' },
-      { key:'commercial', label:'Commercial' }
-    ],
-    tertiary: {},
-    panelId: (sec) => `modeling-${sec}`
-  },
+      modeling: {
+        wash: { A:'rgba(199,154,168,.16)', B:'rgba(199,174,118,.10)', C:'rgba(126,149,137,.06)' },
+        secondary: [
+          { key:'digitals', label:'Digitals' },
+          { key:'runway', label:'Runway' },
+          { key:'editorial', label:'Editorial' },
+          { key:'commercial', label:'Commercial' }
+        ],
+        panelId: (sec) => `modeling-${sec}`
+      },
 
-  writing: {
-    wash: { A:'rgba(138,106,85,.10)', B:'rgba(199,154,168,.10)', C:'rgba(161,155,184,.08)' },
-    secondary: [
-      { key:'piece-1', label:'Piece I' },
-      { key:'piece-2', label:'Piece II' },
-      { key:'piece-3', label:'Piece III' },
-      { key:'piece-4', label:'Piece IV' }
-    ],
-    tertiary: {},
-    panelId: (sec) => `writing-${sec}`
-  },
+      writing: {
+        wash: { A:'rgba(138,106,85,.08)', B:'rgba(199,154,168,.10)', C:'rgba(161,155,184,.08)' },
+        secondary: [
+          { key:'piece-1', label:'Piece I' },
+          { key:'piece-2', label:'Piece II' },
+          { key:'piece-3', label:'Piece III' },
+          { key:'piece-4', label:'Piece IV' }
+        ],
+        panelId: (sec) => `writing-${sec}`
+      },
 
-  vo: {
-    wash: { A:'rgba(126,149,137,.12)', B:'rgba(20,19,18,.04)', C:'rgba(161,155,184,.10)' },
-    secondary: [
-      { key:'demos', label:'VO Demos' }
-    ],
-    tertiary: {},
-    panelId: (sec) => `vo-${sec}`
-  }
-};
-
+      vo: {
+        wash: { A:'rgba(161,155,184,.10)', B:'rgba(20,19,18,.03)', C:'rgba(126,149,137,.08)' },
+        secondary: [
+          { key:'reel', label:'VO Reel' },
+          { key:'audiobook', label:'Audiobook' },
+          { key:'commercial', label:'Commercial' },
+          { key:'character', label:'Character' }
+        ],
+        panelId: (sec) => `vo-${sec}`
+      }
+    };
 
     function setWash(w){
       document.documentElement.style.setProperty('--washA', w.A);
       document.documentElement.style.setProperty('--washB', w.B);
       document.documentElement.style.setProperty('--washC', w.C);
-    }
-
-    function clearWash(){
-      document.documentElement.style.setProperty('--washA','rgba(0,0,0,0)');
-      document.documentElement.style.setProperty('--washB','rgba(0,0,0,0)');
-      document.documentElement.style.setProperty('--washC','rgba(0,0,0,0)');
     }
 
     function setPrimaryUI(activeKey){
@@ -1032,132 +1032,76 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
       });
     }
 
-    function clearBtnStates(container){
-      container.querySelectorAll('.btn').forEach(b => b.classList.remove('active','dim'));
-    }
-
-    function renderButtons(container, items, cls){
-      container.innerHTML = '';
+    function renderSecondary(items){
+      secondaryRow.innerHTML = '';
       items.forEach(it => {
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `btn ${cls}`;
+        btn.className = 'btn s';
         btn.textContent = it.label;
         btn.dataset.key = it.key;
-        container.appendChild(btn);
+        secondaryRow.appendChild(btn);
       });
+      secondaryRow.hidden = false;
     }
 
     function showPanel(id){
       panels.forEach(p => p.classList.toggle('active', p.id === id));
-      // small polite nudge to keep focus
       document.getElementById('stage').scrollIntoView({ behavior:'smooth', block:'start' });
     }
 
-    function applyHash(primary, secondary, tertiary){
-      const parts = [primary, secondary, tertiary].filter(Boolean).join('/');
+    function applyHash(primary, secondary){
+      const parts = [primary, secondary].filter(Boolean).join('/');
       location.hash = parts ? `#${parts}` : '';
     }
 
     function parseHash(){
       const h = (location.hash || '').replace('#','').trim();
       if(!h) return null;
-      const [p,s,t] = h.split('/').map(x => x && x.trim()).filter(Boolean);
-      return { p, s, t };
+      const [p,s] = h.split('/').map(x => x && x.trim()).filter(Boolean);
+      return { p, s };
     }
 
-    function activate(primary, secondary, tertiary){
+    function activate(primary, secondary){
       const c = config[primary];
       if(!c) return;
 
-      // Update current state for event delegation
-      currentPrimary = primary;
-
       setWash(c.wash);
       setPrimaryUI(primary);
+      renderSecondary(c.secondary);
 
-      // secondary
-      secondaryRow.hidden = false;
-      renderButtons(secondaryRow, c.secondary, 's');
-      tertiaryRow.hidden = true;
-      tertiaryRow.innerHTML = '';
-
-      // choose default secondary if missing
       const sec = secondary || c.secondary[0]?.key;
-      currentSecondary = sec;
+      secondaryRow.querySelectorAll('.btn.s').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.key === sec);
+        btn.addEventListener('click', () => {
+          const newSec = btn.dataset.key;
+          secondaryRow.querySelectorAll('.btn.s').forEach(x => x.classList.toggle('active', x === btn));
+          showPanel(c.panelId(newSec));
+          applyHash(primary, newSec);
+        }, { once: true });
+      });
 
-      // set secondary active style
-      const secBtns = Array.from(secondaryRow.querySelectorAll('.btn.s'));
-      secBtns.forEach(b => b.classList.toggle('active', b.dataset.key === sec));
-
-      // tertiary only if exists for this secondary
-      const triList = c.tertiary && c.tertiary[sec];
-      if(triList && triList.length){
-        tertiaryRow.hidden = false;
-        renderButtons(tertiaryRow, triList, 't');
-        const tri = tertiary || triList[0]?.key;
-        const triBtns = Array.from(tertiaryRow.querySelectorAll('.btn.t'));
-        triBtns.forEach(b => b.classList.toggle('active', b.dataset.key === tri));
-
-        showPanel(c.panelId(sec, tri));
-        applyHash(primary, sec, tri);
-      } else {
-        // no tertiary
-        showPanel(c.panelId(sec));
-        applyHash(primary, sec);
-      }
+      showPanel(c.panelId(sec));
+      applyHash(primary, sec);
     }
 
-    // Event delegation for secondary buttons
-    secondaryRow.addEventListener('click', (e) => {
-      const btn = e.target.closest('.btn.s');
-      if (!btn || !currentPrimary) return;
-      
-      const newSec = btn.dataset.key;
-      secondaryRow.querySelectorAll('.btn.s').forEach(x => x.classList.toggle('active', x === btn));
-      // re-activate with new secondary (resets tertiary properly)
-      activate(currentPrimary, newSec, null);
-    });
-
-    // Event delegation for tertiary buttons
-    tertiaryRow.addEventListener('click', (e) => {
-      const btn = e.target.closest('.btn.t');
-      if (!btn || !currentPrimary || !currentSecondary) return;
-      
-      const c = config[currentPrimary];
-      if (!c) return;
-      
-      const newTri = btn.dataset.key;
-      tertiaryRow.querySelectorAll('.btn.t').forEach(x => x.classList.toggle('active', x === btn));
-      showPanel(c.panelId(currentSecondary, newTri));
-      applyHash(currentPrimary, currentSecondary, newTri);
-    });
-
-    // primary click
     primaryBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const key = btn.dataset.primary;
-        activate(key, null, null);
-      });
+      btn.addEventListener('click', () => activate(btn.dataset.primary, null));
     });
 
-    // default state from hash
+    // Init from hash
     (function init(){
       const state = parseHash();
       if(state && config[state.p]){
-        activate(state.p, state.s, state.t);
+        activate(state.p, state.s);
       } else {
-        clearWash();
         secondaryRow.hidden = true;
-        tertiaryRow.hidden = true;
       }
     })();
 
     window.addEventListener('hashchange', () => {
       const state = parseHash();
-      if(state && config[state.p]){
-        activate(state.p, state.s, state.t);
-      }
+      if(state && config[state.p]) activate(state.p, state.s);
     });
   </script>
 </body>
