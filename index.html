@@ -1,54 +1,45 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="color-scheme" content="dark light" />
   <title>Emery Scott — Actress · Model · Writer</title>
   <meta name="description" content="Emery Scott — Actress, Model, Writer. Casting-friendly, mythic, intimate, and organized." />
 
-  <!-- Fonts: literary serif + modern sans (fast, restrained) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
   <style>
     :root{
-      --max: 1120px;
-      --r: 20px;
+      --max: 1140px;
+      --r: 22px;
 
-      /* dark room */
-      --night-0:#0b0d0c;
-      --night-1:#0f1311;
-      --night-2:#141a16;
-
-      /* paper rooms */
-      --paper-0:#f1e8dd;
-      --paper-1:#eadfd3;
-      --paper-2:#e4d6c7;
-
-      --ink:#151515;
-      --edge: rgba(0,0,0,.14);
-
-      /* palette accents */
-      --sage:#93a496;
-      --rose:#c7a0a6;
-      --gold:#c9b07b;
-      --lav:#a7a2b8;
-      --russet:#8b6b52;
-
-      /* glow & shadow */
-      --shadow-1: 0 18px 55px rgba(0,0,0,.22);
-      --shadow-2: 0 30px 85px rgba(0,0,0,.36);
-      --hairline: rgba(255,255,255,.10);
-
-      /* typography */
       --serif: "Libre Baskerville", serif;
       --sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 
-      /* motion */
+      /* Base: “studio dusk” (not bright, not dingy) */
+      --base-0: #f0e8de;     /* warm stone */
+      --base-1: #e8ddd1;     /* deeper stone */
+      --base-ink: #1b1b1b;
+
+      /* Accents */
+      --sage: #93a496;
+      --rose: #c7a0a6;
+      --lav:  #a7a2b8;
+      --gold: #c9b07b;
+      --russet:#8b6b52;
+
+      --hair: rgba(0,0,0,.12);
+      --shadow: 0 18px 60px rgba(0,0,0,.16);
+
       --ease: cubic-bezier(.2,.8,.2,1);
       --t: 640ms;
+
+      /* Theme wash variables (set by JS) */
+      --washA: rgba(147,164,150,.00);
+      --washB: rgba(199,160,166,.00);
+      --washC: rgba(167,162,184,.00);
     }
 
     *{ box-sizing:border-box; }
@@ -56,41 +47,27 @@
     body{
       margin:0;
       font-family: var(--sans);
-      color:#f2f2f2;
+      color: var(--base-ink);
       background:
-        radial-gradient(1200px 760px at 22% 8%, rgba(147,164,150,.22), transparent 58%),
-        radial-gradient(900px 680px at 78% 24%, rgba(199,160,166,.17), transparent 60%),
-        radial-gradient(700px 520px at 68% 78%, rgba(201,176,123,.10), transparent 55%),
-        linear-gradient(180deg, var(--night-2), var(--night-0));
+        radial-gradient(1000px 700px at 22% 18%, var(--washA), transparent 60%),
+        radial-gradient(900px 620px  at 78% 28%, var(--washB), transparent 62%),
+        radial-gradient(900px 700px  at 55% 88%, var(--washC), transparent 60%),
+        linear-gradient(180deg, var(--base-0), var(--base-1));
+      transition: background 520ms var(--ease);
       overflow-x:hidden;
-      letter-spacing: .01em;
     }
 
-    /* subtle film grain + candle haze */
-    body::before{
-      content:"";
-      position:fixed;
-      inset:-20%;
-      pointer-events:none;
-      opacity:.10;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(255,255,255,.08), transparent 35%),
-        radial-gradient(circle at 80% 30%, rgba(255,255,255,.06), transparent 40%),
-        radial-gradient(circle at 50% 85%, rgba(255,255,255,.05), transparent 45%);
-      filter: blur(0.5px);
-      mix-blend-mode: screen;
-      z-index:0;
-    }
+    /* soft grain, very subtle */
     body::after{
       content:"";
       position:fixed;
       inset:0;
       pointer-events:none;
-      opacity:.06;
+      opacity:.045;
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
       background-size: 220px 220px;
-      mix-blend-mode: overlay;
+      mix-blend-mode: multiply;
       z-index:0;
     }
 
@@ -102,14 +79,14 @@
       z-index:1;
     }
 
-    /* NAV */
+    /* NAV (simple, calm) */
     nav{
       position: sticky;
       top: 0;
       z-index: 50;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(10,12,11,.82), rgba(10,12,11,.42));
-      border-bottom: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(8px);
+      background: linear-gradient(to bottom, rgba(240,232,222,.86), rgba(240,232,222,.45));
+      border-bottom: 1px solid rgba(0,0,0,.08);
     }
     .nav-inner{
       display:flex;
@@ -119,30 +96,14 @@
       gap: 14px;
     }
     .brand{
-      display:flex;
-      align-items:baseline;
-      gap: 10px;
-      min-width: 220px;
-    }
-    .brand .name{
       font-family: var(--serif);
-      font-weight: 700;
-      font-size: 1.06rem;
-      letter-spacing: .02em;
-      white-space: nowrap;
-      opacity:.95;
+      font-weight:700;
+      letter-spacing:.02em;
+      font-size: 1.08rem;
+      white-space:nowrap;
     }
-    .brand .sig{
-      font-size:.78rem;
-      letter-spacing:.18em;
-      text-transform: uppercase;
-      opacity:.68;
-      white-space: nowrap;
-    }
-
     .nav-actions{
       display:flex;
-      align-items:center;
       gap: 14px;
       flex-wrap: wrap;
       justify-content:flex-end;
@@ -150,400 +111,311 @@
     .nav-actions button{
       border:0;
       background:none;
-      color:#f2f2f2;
+      color: rgba(0,0,0,.72);
       font-size:.82rem;
       letter-spacing:.14em;
       text-transform:uppercase;
       cursor:pointer;
       padding: 6px 2px;
-      opacity:.82;
-      position:relative;
     }
-    .nav-actions button::after{
-      content:"";
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:-6px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(199,160,166,.9), transparent);
-      transform: scaleX(0);
-      transform-origin:center;
-      transition: transform 260ms ease;
-      opacity:.8;
-    }
-    .nav-actions button:hover{ opacity:1; }
-    .nav-actions button:hover::after{ transform: scaleX(1); }
+    .nav-actions button:hover{ color: rgba(0,0,0,.92); }
+
+    /* SECTION SPACING (breath) */
+    header{ padding: 46px 0 70px; }
+    .space-xl{ margin-top: 38px; }
+    .space-lg{ margin-top: 28px; }
+    .space-md{ margin-top: 18px; }
 
     /* HERO */
-    header{ padding: 52px 0 18px; }
     .hero{
       border-radius: var(--r);
       overflow:hidden;
-      border: 1px solid rgba(255,255,255,.10);
-      box-shadow: var(--shadow-2);
-      position:relative;
-      min-height: 58vh;
-      display:flex;
-      align-items:flex-end;
-      padding: clamp(26px, 5vw, 56px);
-      isolation:isolate;
+      border: 1px solid rgba(0,0,0,.10);
+      box-shadow: var(--shadow);
+      min-height: 60vh;
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 0;
       background:
-        radial-gradient(980px 620px at 30% 18%, rgba(147,164,150,.35), transparent 60%),
-        radial-gradient(820px 620px at 78% 42%, rgba(199,160,166,.20), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.40));
+        radial-gradient(900px 600px at 30% 20%, rgba(147,164,150,.28), transparent 60%),
+        radial-gradient(820px 620px at 75% 55%, rgba(199,160,166,.18), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.34), rgba(0,0,0,.05));
     }
-
-    /* Replace with real hero image when you add /assets/images/hero.jpg */
-    .hero.has-image{
+    .hero-left{
+      padding: clamp(26px, 4.6vw, 56px);
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      gap: 14px;
+    }
+    .hero-right{
+      position:relative;
+      min-height: 320px;
       background:
-        radial-gradient(980px 620px at 30% 18%, rgba(147,164,150,.26), transparent 60%),
-        radial-gradient(820px 620px at 78% 42%, rgba(199,160,166,.14), transparent 62%),
-        linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.55)),
+        linear-gradient(180deg, rgba(0,0,0,.05), rgba(0,0,0,.12)),
         url("./assets/images/hero.jpg");
       background-size: cover;
       background-position: 50% 18%;
     }
-
-    .hero::before{
-      /* faint “sigil” edge light */
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(500px 240px at 18% 88%, rgba(201,176,123,.16), transparent 65%),
-        radial-gradient(420px 240px at 82% 86%, rgba(167,162,184,.14), transparent 70%);
-      mix-blend-mode: screen;
-      opacity:.8;
-      z-index:-1;
-    }
-
-    .hero-grid{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap: 14px;
-      max-width: 74ch;
-    }
     .hero h1{
-      font-family: var(--serif);
-      font-weight: 700;
       margin:0;
-      font-size: clamp(2.5rem, 5.3vw, 4.2rem);
+      font-family: var(--serif);
+      font-weight:700;
       letter-spacing:.01em;
-      text-shadow: 0 18px 55px rgba(0,0,0,.35);
+      font-size: clamp(2.6rem, 4.6vw, 4.2rem);
     }
     .roles{
-      font-size:.85rem;
+      font-size:.86rem;
       letter-spacing:.20em;
       text-transform:uppercase;
-      opacity:.90;
+      color: rgba(0,0,0,.62);
+    }
+    .hero-note{
+      max-width: 55ch;
+      line-height: 1.75;
+      color: rgba(0,0,0,.74);
+      font-size: .98rem;
+      margin: 0;
     }
 
-    .hero-quote{
-      margin: 4px 0 0;
+    /* THESIS QUOTE (big, still, breathable) */
+    .thesis{
+      margin-top: 28px;
+      padding: 34px 0 12px;
+    }
+    .thesis-inner{
+      border-top: 1px solid rgba(0,0,0,.10);
+      border-bottom: 1px solid rgba(0,0,0,.10);
+      padding: 34px 0;
+    }
+    .thesis blockquote{
+      margin: 0 auto;
+      max-width: 72ch;
       font-family: var(--serif);
-      font-size: 1.02rem;
-      line-height: 1.7;
-      opacity:.92;
-      position:relative;
-      padding-left: 14px;
+      font-size: clamp(1.1rem, 1.4vw, 1.35rem);
+      line-height: 1.9;
+      letter-spacing:.01em;
+      color: rgba(0,0,0,.70);
+      text-align:center;
     }
-    .hero-quote::before{
-      content:"";
-      position:absolute;
-      left:0;
-      top:.45em;
-      bottom:.35em;
-      width:2px;
-      background: linear-gradient(to bottom, rgba(199,160,166,.0), rgba(199,160,166,.85), rgba(199,160,166,.0));
-      opacity:.9;
-    }
-
-    /* TICKER */
-    .ticker{
-      margin: 18px 0 18px;
-      border-radius: 16px;
-      overflow:hidden;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      position:relative;
-    }
-    .ticker::before,.ticker::after{
-      content:"";
-      position:absolute;
-      top:0; bottom:0;
-      width: 72px;
-      z-index:2;
-      pointer-events:none;
-    }
-    .ticker::before{
-      left:0;
-      background: linear-gradient(to right, rgba(13,15,14,1), rgba(13,15,14,0));
-    }
-    .ticker::after{
-      right:0;
-      background: linear-gradient(to left, rgba(13,15,14,1), rgba(13,15,14,0));
-    }
-    .ticker-track{
-      display:flex;
-      gap: 48px;
-      white-space:nowrap;
-      padding: 14px 0;
-      will-change: transform;
-      animation: marquee 58s linear infinite;
-    }
-    .ticker-item{
-      opacity:.92;
-      font-size:.92rem;
-    }
-    .ticker-item span{
-      opacity:.70;
-      margin-left: 10px;
-      font-size:.88rem;
-    }
-    @keyframes marquee{
-      from{ transform: translateX(0); }
-      to{ transform: translateX(-50%); }
+    .thesis cite{
+      display:block;
+      margin-top: 16px;
+      font-family: var(--serif);
+      font-style: normal;
+      letter-spacing:.10em;
+      text-transform: uppercase;
+      font-size: .82rem;
+      color: rgba(0,0,0,.55);
     }
 
-    /* ABOUT */
+    /* ABOUT (bigger, calmer, less “boxed”) */
     .about{
-      margin: 18px 0 26px;
+      margin-top: 34px;
       display:grid;
-      grid-template-columns: 160px 1fr;
-      gap: 18px;
-      align-items:start;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 22px;
+      align-items:center;
     }
-    .headshot{
-      width: 160px;
-      height: 190px;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,.12);
-      box-shadow: 0 12px 48px rgba(0,0,0,.28);
-      background:
-        radial-gradient(160px 120px at 40% 32%, rgba(199,160,166,.22), transparent 62%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.28));
-      overflow:hidden;
-      position:relative;
-    }
-    /* Replace with real headshot: ./assets/images/headshot.jpg */
-    .headshot.has-image{
-      background:
-        radial-gradient(160px 120px at 40% 32%, rgba(199,160,166,.18), transparent 62%),
-        linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.34)),
-        url("./assets/images/headshot.jpg");
-      background-size: cover;
-      background-position: 50% 20%;
-    }
-
-    .about-card{
-      border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      padding: 18px 18px 16px;
-      box-shadow: 0 18px 60px rgba(0,0,0,.16);
+    .about-text{
+      padding: 6px 0;
     }
     .about-lead{
       margin:0 0 10px;
-      line-height:1.75;
-      font-size:.98rem;
-      opacity:.96;
+      font-size: clamp(1.02rem, 1.1vw, 1.12rem);
+      line-height: 1.9;
+      color: rgba(0,0,0,.76);
+      max-width: 70ch;
     }
     .storyteller{
-      display:inline-block;
       font-family: var(--serif);
-      letter-spacing:.02em;
-      padding: 0 2px;
-      position:relative;
+      display:inline-block;
       transition: transform 360ms var(--ease), opacity 360ms var(--ease);
-      will-change: transform;
     }
-    .about-card:hover .storyteller{
-      transform: translateY(-1px) scale(1.04);
+    .about-text:hover .storyteller{
+      transform: translateY(-1px) scale(1.05);
       opacity: 1;
-    }
-    .storyteller::after{
-      content:"";
-      position:absolute;
-      left:-2px; right:-2px; bottom:-3px;
-      height: 1px;
-      background: linear-gradient(to right, transparent, rgba(201,176,123,.8), transparent);
-      opacity:.85;
-      transform: scaleX(.55);
-      transform-origin:center;
     }
 
     .about-toggle{
       border:0;
       background:none;
-      color: rgba(255,255,255,.92);
+      padding: 10px 0 0;
       cursor:pointer;
-      padding: 6px 0;
-      font-size: .9rem;
-      opacity:.86;
-      display:inline-flex;
-      align-items:center;
-      gap: 10px;
-    }
-    .about-toggle:hover{ opacity:1; }
-    .caret{
-      width: 10px; height:10px;
-      border-right: 1.5px solid rgba(255,255,255,.8);
-      border-bottom: 1.5px solid rgba(255,255,255,.8);
-      transform: rotate(45deg);
-      transition: transform 320ms var(--ease);
-      opacity:.9;
-      margin-top:-2px;
+      color: rgba(0,0,0,.62);
+      font-size: .98rem;
+      line-height: 1.6;
+      text-align:left;
+      max-width: 68ch;
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 4px;
     }
     .about-more{
       overflow:hidden;
       max-height:0;
-      transition: max-height 620ms var(--ease);
-      border-top: 1px solid rgba(255,255,255,.10);
-      margin-top: 10px;
+      transition: max-height 650ms var(--ease);
     }
-    .about-more.open{
-      max-height: 1200px;
-    }
+    .about-more.open{ max-height: 1400px; }
     .about-more p{
-      margin: 12px 0 0;
-      line-height:1.78;
-      font-size:.97rem;
-      opacity:.95;
+      margin: 16px 0 0;
       white-space: pre-line;
+      line-height: 1.9;
+      font-size: 1rem;
+      color: rgba(0,0,0,.74);
+      max-width: 74ch;
     }
 
-    /* CHOOSER */
+    .headshot{
+      border-radius: var(--r);
+      overflow:hidden;
+      border: 1px solid rgba(0,0,0,.10);
+      box-shadow: var(--shadow);
+      aspect-ratio: 4 / 5;
+      background:
+        linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.12)),
+        url("./assets/images/headshot.jpg");
+      background-size: cover;
+      background-position: 50% 20%;
+    }
+
+    /* CHOOSER (centered + “room expands around you”) */
+    .chooser-zone{
+      margin-top: 34px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap: 14px;
+    }
+    .chooser-title{
+      font-family: var(--serif);
+      font-size: 1.25rem;
+      color: rgba(0,0,0,.66);
+      letter-spacing:.01em;
+    }
     .chooser{
       display:flex;
-      gap: 12px;
-      flex-wrap:wrap;
-      margin: 10px 0 22px;
+      gap: 14px;
+      flex-wrap: wrap;
+      justify-content:center;
+      align-items:center;
+      padding: 10px 0;
     }
     .pill{
-      border: 1px solid rgba(255,255,255,.26);
-      background: rgba(255,255,255,.04);
-      color:#f3f3f3;
-      padding: 8px 12px;
+      border: 1px solid rgba(0,0,0,.18);
+      background: rgba(255,255,255,.34);
+      color: rgba(0,0,0,.78);
+      padding: 10px 14px;
       border-radius: 999px;
       cursor:pointer;
-      font-size:.78rem;
-      letter-spacing:.14em;
-      text-transform:uppercase;
-      opacity:.92;
-      transition: transform 220ms ease, border-color 220ms ease, background 220ms ease;
+      font-size: .78rem;
+      letter-spacing:.18em;
+      text-transform: uppercase;
+      transition: transform 280ms var(--ease), opacity 280ms var(--ease), background 280ms var(--ease), border-color 280ms var(--ease);
     }
     .pill:hover{
-      border-color: rgba(199,160,166,.72);
+      border-color: rgba(0,0,0,.30);
+      background: rgba(255,255,255,.50);
       transform: translateY(-1px);
-      background: rgba(255,255,255,.06);
+    }
+    .pill.active{
+      transform: scale(.94);
+      opacity: .72;
+      background: rgba(255,255,255,.24);
+    }
+    .pill.dim{
+      opacity: .45;
+      transform: scale(.98);
     }
 
-    /* REVEAL (opens vertically first) */
+    /* REVEAL: no “separate box” feel, blends into page */
     .reveal{
+      width: 100%;
+      max-height: 0;
+      overflow:hidden;
+      transition: max-height 780ms var(--ease);
+    }
+    .reveal.open{ max-height: 2600px; }
+
+    /* Blended stage surface */
+    .stage-surface{
+      margin-top: 10px;
       border-radius: var(--r);
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(0,0,0,.10);
+      box-shadow: var(--shadow);
       overflow:hidden;
-      max-height:0;
-      transition: max-height 760ms var(--ease);
-    }
-    .reveal.open{ max-height: 2500px; }
-    .stage-frame{ padding: 18px; }
-
-    /* SLIDER WINDOW */
-    .window{
-      border-radius: calc(var(--r) - 4px);
-      overflow:hidden;
-      border: 1px solid rgba(0,0,0,.12);
-      background: var(--paper-0);
-      color: var(--ink);
-      box-shadow: var(--shadow-1);
-      position:relative;
-    }
-    .window::before{
-      /* a subtle inner vignette for “premium” weight */
-      content:"";
-      position:absolute;
-      inset:0;
-      pointer-events:none;
       background:
-        radial-gradient(900px 520px at 50% 10%, rgba(0,0,0,.04), transparent 60%),
-        radial-gradient(900px 520px at 50% 95%, rgba(0,0,0,.05), transparent 62%);
-      mix-blend-mode: multiply;
-      opacity:.85;
-      z-index:1;
+        radial-gradient(900px 520px at 25% 15%, rgba(147,164,150,.16), transparent 60%),
+        radial-gradient(800px 520px at 78% 30%, rgba(199,160,166,.12), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.62), rgba(0,0,0,.03));
     }
 
+    .stage-inner{
+      padding: 20px;
+    }
+
+    /* Horizontal slider inside blended stage */
     .slider{
       display:flex;
       width: 400%;
       transform: translateX(0%);
       transition: transform var(--t) var(--ease);
-      position:relative;
-      z-index:0;
     }
     .panel{
       width:25%;
-      min-height: 64vh;
-      padding: 26px;
+      padding: 22px 18px 24px;
+      min-height: 70vh;         /* verticality */
       overflow-y:auto;
-      scroll-behavior:smooth;
     }
-
     .panel h2{
+      margin: 0 0 10px;
       font-family: var(--serif);
-      margin: 0 0 12px;
       font-size: 2.05rem;
       letter-spacing:.01em;
+      color: rgba(0,0,0,.78);
     }
     .panel .subline{
       margin: 0 0 16px;
-      font-size: .95rem;
-      opacity:.90;
-      line-height:1.7;
+      line-height: 1.75;
+      color: rgba(0,0,0,.68);
       max-width: 78ch;
     }
 
-    /* Rooms: cohesive spine, different energy */
+    /* Subtle per-lane energy (not boxed—just texture) */
     .panel.acting{
       background:
-        radial-gradient(720px 420px at 18% 12%, rgba(147,164,150,.40), transparent 58%),
-        radial-gradient(620px 420px at 82% 30%, rgba(167,162,184,.22), transparent 60%),
-        linear-gradient(180deg, var(--paper-0), var(--paper-1));
+        radial-gradient(720px 420px at 18% 12%, rgba(147,164,150,.20), transparent 60%),
+        radial-gradient(620px 420px at 82% 30%, rgba(167,162,184,.12), transparent 62%);
     }
     .panel.modeling{
       background:
-        radial-gradient(720px 420px at 22% 12%, rgba(199,160,166,.34), transparent 58%),
-        radial-gradient(620px 420px at 80% 40%, rgba(201,176,123,.22), transparent 62%),
-        linear-gradient(180deg, #f3ece7, #e8ded6);
+        radial-gradient(720px 420px at 22% 12%, rgba(199,160,166,.18), transparent 60%),
+        radial-gradient(620px 420px at 80% 40%, rgba(201,176,123,.10), transparent 62%);
     }
     .panel.writing{
       background:
-        radial-gradient(740px 460px at 26% 14%, rgba(139,107,82,.18), transparent 60%),
-        radial-gradient(620px 420px at 82% 36%, rgba(199,160,166,.16), transparent 62%),
-        linear-gradient(180deg, #f1e7db, #e6d7c7);
+        radial-gradient(740px 460px at 26% 14%, rgba(139,107,82,.10), transparent 60%),
+        radial-gradient(620px 420px at 82% 36%, rgba(199,160,166,.10), transparent 62%);
     }
     .panel.vo{
       background:
-        radial-gradient(720px 420px at 18% 14%, rgba(20,20,20,.08), transparent 60%),
-        radial-gradient(620px 420px at 82% 32%, rgba(147,164,150,.22), transparent 62%),
-        linear-gradient(180deg, #efeae2, #e2d8cf);
+        radial-gradient(720px 420px at 18% 14%, rgba(0,0,0,.06), transparent 60%),
+        radial-gradient(620px 420px at 82% 32%, rgba(147,164,150,.12), transparent 62%);
     }
 
     /* Accordion */
     .accordion{
-      border-top: 1px solid var(--edge);
+      border-top: 1px solid rgba(0,0,0,.12);
       margin-top: 16px;
     }
     .acc-item{
-      border-bottom: 1px solid var(--edge);
+      border-bottom: 1px solid rgba(0,0,0,.12);
       padding: 10px 0;
     }
     .acc-btn{
       width:100%;
-      background:none;
       border:0;
+      background:none;
       text-align:left;
       cursor:pointer;
       padding: 10px 0;
@@ -552,31 +424,22 @@
       align-items:center;
       justify-content:space-between;
       gap: 10px;
-      color: var(--ink);
+      color: rgba(0,0,0,.78);
     }
-    .acc-btn .label{
-      font-weight: 600;
-      letter-spacing:.01em;
-    }
-    .acc-btn .meta{
-      font-weight: 500;
-      opacity:.58;
-      font-size: .92rem;
-      display:flex;
-      align-items:center;
-      gap: 10px;
-    }
-    .chev{
+    .acc-btn .label{ font-weight: 600; }
+    .acc-btn .chev{
       width: 10px; height:10px;
-      border-right: 1.5px solid rgba(0,0,0,.55);
-      border-bottom: 1.5px solid rgba(0,0,0,.55);
+      border-right: 1.5px solid rgba(0,0,0,.48);
+      border-bottom: 1.5px solid rgba(0,0,0,.48);
       transform: rotate(45deg);
       transition: transform 260ms var(--ease);
-      opacity:.8;
+      opacity:.85;
     }
     .acc-content{
       display:none;
       padding: 8px 0 14px;
+      color: rgba(0,0,0,.70);
+      line-height: 1.75;
       max-width: 92ch;
     }
     .acc-item.open .acc-content{ display:block; }
@@ -591,7 +454,7 @@
       background: #000;
     }
 
-    /* Modeling Digitals layout */
+    /* Digitals (structured) */
     .digitals-grid{
       display:grid;
       grid-template-columns: 1.1fr .9fr;
@@ -601,21 +464,10 @@
     .shot{
       border-radius: 14px;
       border: 1px solid rgba(0,0,0,.12);
-      background: rgba(255,255,255,.60);
+      background: rgba(255,255,255,.55);
       min-height: 190px;
       position:relative;
       overflow:hidden;
-    }
-    .shot::before{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:
-        radial-gradient(220px 140px at 22% 18%, rgba(199,160,166,.18), transparent 62%),
-        radial-gradient(240px 140px at 86% 30%, rgba(201,176,123,.14), transparent 64%),
-        linear-gradient(180deg, rgba(255,255,255,.08), rgba(0,0,0,.06));
-      opacity:.9;
-      mix-blend-mode: multiply;
     }
     .shot::after{
       content: attr(data-label);
@@ -643,26 +495,72 @@
       flex-wrap:wrap;
     }
     .hint{
-      opacity:.70;
-      font-size:.86rem;
+      color: rgba(0,0,0,.56);
+      font-size: .88rem;
     }
 
-    /* Contact */
-    #contact{
-      margin: 26px 0 64px;
+    /* REVIEWS TICKER (NO BOX) — sits under portfolio & above contact */
+    .reviews{
+      margin-top: 34px;
+      position:relative;
+      padding: 10px 0;
     }
+    .reviews::before, .reviews::after{
+      content:"";
+      position:absolute;
+      top:0; bottom:0;
+      width: 70px;
+      pointer-events:none;
+      z-index:2;
+    }
+    .reviews::before{
+      left:0;
+      background: linear-gradient(to right, rgba(240,232,222,1), rgba(240,232,222,0));
+    }
+    .reviews::after{
+      right:0;
+      background: linear-gradient(to left, rgba(240,232,222,1), rgba(240,232,222,0));
+    }
+    .reviews-track{
+      display:flex;
+      gap: 48px;
+      white-space:nowrap;
+      will-change: transform;
+      animation: marquee 58s linear infinite;
+      color: rgba(0,0,0,.60);
+      font-style: italic;
+      font-family: var(--serif);
+      font-size: 1.02rem;
+      letter-spacing:.01em;
+    }
+    .reviews-track span{
+      font-style: normal;
+      opacity:.62;
+      margin-left: 10px;
+      letter-spacing:.12em;
+      text-transform: uppercase;
+      font-size: .78rem;
+      font-family: var(--sans);
+    }
+    @keyframes marquee{
+      from{ transform: translateX(0); }
+      to{ transform: translateX(-50%); }
+    }
+
+    /* CONTACT */
+    #contact{ margin-top: 28px; }
     .contact-card{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
       border-radius: var(--r);
+      border: 1px solid rgba(0,0,0,.10);
+      box-shadow: var(--shadow);
+      background: rgba(255,255,255,.40);
       padding: 18px;
-      box-shadow: 0 18px 60px rgba(0,0,0,.14);
     }
     .contact-card h3{
       margin:0 0 10px;
       font-family: var(--serif);
       font-size: 1.55rem;
-      letter-spacing:.01em;
+      color: rgba(0,0,0,.74);
     }
     .contact-row{
       display:flex;
@@ -671,25 +569,20 @@
       margin-top: 10px;
     }
     .contact-row a{
-      color: rgba(255,255,255,.92);
+      color: rgba(0,0,0,.68);
       text-decoration:none;
-      opacity:.85;
     }
-    .contact-row a:hover{ opacity:1; }
+    .contact-row a:hover{ color: rgba(0,0,0,.86); }
 
-    /* Reduce motion */
-    @media (prefers-reduced-motion: reduce){
-      .ticker-track{ animation: none; }
-      .slider, .reveal, .about-more, .nav-actions button::after { transition: none !important; }
-    }
-
-    @media (max-width: 820px){
-      .brand{ min-width: unset; }
+    /* Responsive */
+    @media (max-width: 880px){
+      .hero{ grid-template-columns: 1fr; }
+      .hero-right{ min-height: 340px; }
       .about{ grid-template-columns: 1fr; }
-      .headshot{ width: 100%; height: 240px; }
-      .panel{ padding: 20px; }
-      .digitals-grid{ grid-template-columns: 1fr; }
-      .hero{ min-height: 54vh; }
+    }
+    @media (prefers-reduced-motion: reduce){
+      .reviews-track{ animation:none; }
+      .reveal, .slider, .about-more { transition:none !important; }
     }
   </style>
 </head>
@@ -697,11 +590,8 @@
 <body>
   <nav>
     <div class="wrap nav-inner">
-      <div class="brand" aria-label="Site identity">
-        <div class="name">Emery Scott</div>
-        <div class="sig">Actress · Model · Writer</div>
-      </div>
-      <div class="nav-actions" aria-label="Primary navigation">
+      <div class="brand">Emery Scott</div>
+      <div class="nav-actions">
         <button class="navGo" data-go="acting" type="button">Acting</button>
         <button class="navGo" data-go="modeling" type="button">Modeling</button>
         <button class="navGo" data-go="writing" type="button">Writing</button>
@@ -712,47 +602,42 @@
   </nav>
 
   <header class="wrap">
-    <!-- Add class "has-image" once you add ./assets/images/hero.jpg -->
-    <section class="hero has-image" aria-label="Hero">
-      <div class="hero-grid">
+    <!-- HERO -->
+    <section class="hero" aria-label="Hero">
+      <div class="hero-left">
         <h1>Emery Scott</h1>
         <div class="roles">Actress · Model · Writer</div>
-
-        <p class="hero-quote">
-          “I have been with story. I have gone without. In only one of those states did I feel I could truly live and so it lives always.”
-          <br />— E. Scott
+        <p class="hero-note">
+          Casting-friendly clarity with mythic presence — choose the lane you need, instantly.
         </p>
       </div>
+      <div class="hero-right" aria-label="Hero image"></div>
     </section>
 
-    <!-- Quote ticker -->
-    <section class="ticker" aria-label="Quote ticker">
-      <div class="ticker-track" id="tickerTrack">
-        <div class="ticker-item">“[She’s] like a Perfect Apple. Like I want to take a bite, but also I can’t.” <span>— A Random Woman</span></div>
-        <div class="ticker-item">“[She] really impressed me tonight. raised his Modelo” <span>— Casting Director</span></div>
-        <div class="ticker-item">“I hadn’t had that much fun at a shoot in a long time.” <span>— Photographer</span></div>
-        <div class="ticker-item">“If I could see inside [her] head I feel like I’d be overwhelmed, but [she’s] always on time and off book.” <span>— Director</span></div>
-        <div class="ticker-item">“[She is] trying to do a lot, but if there’s anyone who can handle a lot it’s [her].” <span>— Editor</span></div>
+    <!-- THESIS QUOTE -->
+    <section class="thesis" aria-label="Thesis quote">
+      <div class="thesis-inner">
+        <blockquote>
+          “I have been with story. I have gone without. In only one of those states did I feel I could truly live and so it lives always.”
+          <cite>— E. Scott</cite>
+        </blockquote>
       </div>
     </section>
 
-    <!-- About -->
+    <!-- ABOUT -->
     <section class="about" aria-label="About">
-      <!-- Add class "has-image" once you add ./assets/images/headshot.jpg -->
-      <div class="headshot has-image" title="Headshot"></div>
-
-      <div class="about-card">
+      <div class="about-text">
         <p class="about-lead">
           As a lover of words, I ache to write too much. But I have decided to restrain myself.
           In brief… I am a <span class="storyteller">storyteller</span>.
         </p>
 
-        <button class="about-toggle" id="aboutToggle" type="button" aria-expanded="false" aria-controls="aboutMore">
-          but are you not curious what I was going to write? You made it thus far (Expandable sentence is, “what is but one more click?”)
-          <span class="caret" id="aboutCaret" aria-hidden="true"></span>
+        <button class="about-toggle" id="aboutToggle" type="button">
+          but are you not curious what I was going to write? You made it thus far…
+          What is but one more click?
         </button>
 
-        <div class="about-more" id="aboutMore" aria-hidden="true">
+        <div class="about-more" id="aboutMore">
           <p>
 Actress, model, writer. My medium may shift, but the intent remains. Some call me a contradiction: ethereal in look, but when I open my mouth I become a fun-loving nut.
      My training brought me to New York and I graduated from Molloy/CAP21 with a BFA; skills in dialects, in Chekhov and Meisner, singing, dancing—and yet I learned more about what I still don't know than what I do. Recently I've been cutting my teeth on Shakespeare's The Merchant of Venice and Changing the Narrative: A Queer Cabaret.
@@ -761,34 +646,35 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
           </p>
         </div>
       </div>
+
+      <div class="headshot" aria-label="Headshot"></div>
     </section>
 
-    <!-- Choose discipline -->
-    <div class="chooser" aria-label="Choose discipline">
-      <button class="pill chooserGo" data-go="acting" type="button">Acting</button>
-      <button class="pill chooserGo" data-go="modeling" type="button">Modeling</button>
-      <button class="pill chooserGo" data-go="writing" type="button">Writing</button>
-      <button class="pill chooserGo" data-go="vo" type="button">Voice Over</button>
-    </div>
+    <!-- CENTERED CHOOSER -->
+    <section class="chooser-zone" aria-label="Choose a lane">
+      <div class="chooser-title">Choose a lane</div>
+      <div class="chooser">
+        <button class="pill chooserGo" data-go="acting" type="button">Acting</button>
+        <button class="pill chooserGo" data-go="modeling" type="button">Modeling</button>
+        <button class="pill chooserGo" data-go="writing" type="button">Writing</button>
+        <button class="pill chooserGo" data-go="vo" type="button">Voice Over</button>
+      </div>
+    </section>
 
-    <!-- Reveal area -->
-    <section class="reveal" id="reveal" aria-label="Discipline stage">
-      <div class="stage-frame">
-        <div class="window">
+    <!-- REVEAL PORTFOLIO -->
+    <section class="reveal" id="reveal" aria-label="Portfolio stage">
+      <div class="stage-surface">
+        <div class="stage-inner">
           <div class="slider" id="slider">
-
             <!-- ACTING -->
             <article class="panel acting" aria-label="Acting">
               <h2>Acting</h2>
-              <p class="subline">
-                Epic and intimate. Organized, opt-in. Nothing opens unless clicked.
-              </p>
+              <p class="subline">Organized, opt-in. Nothing opens unless clicked.</p>
 
-              <div class="accordion" aria-label="Acting accordion">
+              <div class="accordion">
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Film / Television</span>
-                    <span class="meta"><span>Reel</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Film / Television</span><span class="chev" aria-hidden="true"></span>
                   </button>
                   <div class="acc-content">
                     <iframe src="https://www.youtube.com/embed/jZ2nSJOgsv0" title="Film/TV Reel" allowfullscreen></iframe>
@@ -797,18 +683,16 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
 
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Commercial</span>
-                    <span class="meta"><span>Spots</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Commercial</span><span class="chev" aria-hidden="true"></span>
                   </button>
                   <div class="acc-content">
-                    <p>Add your commercial YouTube embed(s) here.</p>
+                    <p>Commercial embed(s) go here.</p>
                   </div>
                 </div>
 
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Vocal</span>
-                    <span class="meta"><span>Performance</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Vocal</span><span class="chev" aria-hidden="true"></span>
                   </button>
                   <div class="acc-content">
                     <iframe src="https://www.youtube.com/embed/LWhhPI8B5zk" title="Vocal" allowfullscreen></iframe>
@@ -817,8 +701,7 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
 
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Dance</span>
-                    <span class="meta"><span>Movement</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Dance</span><span class="chev" aria-hidden="true"></span>
                   </button>
                   <div class="acc-content">
                     <iframe src="https://www.youtube.com/embed/D1lYyGvt0Xg" title="Dance" allowfullscreen></iframe>
@@ -827,11 +710,10 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
 
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Voice Over</span>
-                    <span class="meta"><span>Utility</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Voice Over</span><span class="chev" aria-hidden="true"></span>
                   </button>
                   <div class="acc-content">
-                    <p>Jump straight into the VO room (audio-first, casting clean).</p>
+                    <p>Jump straight into VO (audio-first).</p>
                     <button class="pill chooserGo" data-go="vo" type="button">Go to VO</button>
                   </div>
                 </div>
@@ -841,18 +723,14 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
             <!-- MODELING -->
             <article class="panel modeling" aria-label="Modeling">
               <h2>Modeling</h2>
-              <p class="subline">
-                Cleaner editorial heat. Organized lanes. No endless scroll.
-              </p>
+              <p class="subline">Categories open independently. Digitals are structured.</p>
 
-              <div class="accordion" aria-label="Modeling accordion">
+              <div class="accordion">
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Digitals</span>
-                    <span class="meta"><span>Structured</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Digitals</span><span class="chev" aria-hidden="true"></span>
                   </button>
                   <div class="acc-content">
-                    <p>Replace each tile with your actual digitals (front/back/sides/half/headshot).</p>
                     <div class="digitals-grid">
                       <div class="shot" data-label="Full Front"></div>
                       <div class="digitals-side">
@@ -870,19 +748,17 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
 
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Runway</span>
-                    <span class="meta"><span>Walk</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Runway</span><span class="chev" aria-hidden="true"></span>
                   </button>
                   <div class="acc-content">
-                    <p>Runway gallery here.</p>
-                    <p><strong>Walk video slot:</strong> Add a YouTube embed when ready.</p>
+                    <p>Runway images here.</p>
+                    <p><strong>Walk video slot:</strong> add YouTube embed when ready.</p>
                   </div>
                 </div>
 
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Commercial</span>
-                    <span class="meta"><span>Campaign</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Commercial</span><span class="chev" aria-hidden="true"></span>
                   </button>
                   <div class="acc-content">
                     <p>Commercial modeling gallery placeholder.</p>
@@ -891,8 +767,7 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
 
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Editorial</span>
-                    <span class="meta"><span>Concept</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Editorial</span><span class="chev" aria-hidden="true"></span>
                   </button>
                   <div class="acc-content">
                     <p>Editorial gallery placeholder.</p>
@@ -904,37 +779,26 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
             <!-- WRITING -->
             <article class="panel writing" aria-label="Writing">
               <h2>Writing</h2>
-              <p class="subline">
-                Warmest room. Interior. Page-like rhythm. Expand to read.
-              </p>
+              <p class="subline">Warmest room. Page-like rhythm. Expand to read.</p>
 
-              <div class="accordion" aria-label="Writing accordion">
+              <div class="accordion">
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Piece I</span>
-                    <span class="meta"><span>Read</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Piece I</span><span class="chev" aria-hidden="true"></span>
                   </button>
-                  <div class="acc-content">
-                    <p>Embedded text goes here.</p>
-                  </div>
+                  <div class="acc-content"><p>Embedded text goes here.</p></div>
                 </div>
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Piece II</span>
-                    <span class="meta"><span>Read</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Piece II</span><span class="chev" aria-hidden="true"></span>
                   </button>
-                  <div class="acc-content">
-                    <p>Embedded text goes here.</p>
-                  </div>
+                  <div class="acc-content"><p>Embedded text goes here.</p></div>
                 </div>
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Piece III</span>
-                    <span class="meta"><span>Read</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Piece III</span><span class="chev" aria-hidden="true"></span>
                   </button>
-                  <div class="acc-content">
-                    <p>Embedded text goes here.</p>
-                  </div>
+                  <div class="acc-content"><p>Embedded text goes here.</p></div>
                 </div>
               </div>
             </article>
@@ -942,66 +806,55 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
             <!-- VO -->
             <article class="panel vo" aria-label="Voice Over">
               <h2>Voice Over</h2>
-              <p class="subline">
-                Focused. City/studio utility. Still your world—just less visual demand.
-              </p>
+              <p class="subline">Audio-first utility. Focused, clean, city-studio vibe.</p>
 
-              <div class="accordion" aria-label="VO accordion">
+              <div class="accordion">
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">VO Reel</span>
-                    <span class="meta"><span>Open</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">VO Reel</span><span class="chev" aria-hidden="true"></span>
                   </button>
                   <div class="acc-content">
                     <p>
-                      Current reel link:
                       <a href="https://drive.google.com/file/d/1edt-zS2Bk5lOGtJJ1FLYHybrN5D4DHyZ/view?usp=drive_link" target="_blank" rel="noopener">
                         Open VO Reel
                       </a>
                     </p>
-                    <p>Next upgrade: embed an actual audio player once you host the MP3 in /assets or a direct-link host.</p>
+                    <p>Next upgrade: host MP3 in /assets/audio to embed an actual player.</p>
                   </div>
                 </div>
-
                 <div class="acc-item">
                   <button class="acc-btn" type="button">
-                    <span class="label">Audiobook</span>
-                    <span class="meta"><span>Coming</span><span class="chev" aria-hidden="true"></span></span>
+                    <span class="label">Audiobook (coming)</span><span class="chev" aria-hidden="true"></span>
                   </button>
-                  <div class="acc-content">
-                    <p>Slot reserved for audiobook file.</p>
-                  </div>
-                </div>
-
-                <div class="acc-item">
-                  <button class="acc-btn" type="button">
-                    <span class="label">Animated VO Video</span>
-                    <span class="meta"><span>Hidden later</span><span class="chev" aria-hidden="true"></span></span>
-                  </button>
-                  <div class="acc-content">
-                    <p>We’ll add a “hidden” flag you can switch on when it’s ready.</p>
-                  </div>
+                  <div class="acc-content"><p>Slot reserved.</p></div>
                 </div>
               </div>
             </article>
-
           </div>
-        </div>
 
-        <div class="stage-controls">
-          <button class="pill" id="closeStage" type="button">Close / Return</button>
-          <div class="hint">Use the top nav to jump lanes instantly.</div>
+          <div class="stage-controls">
+            <button class="pill" id="closeStage" type="button">Close</button>
+            <div class="hint">Use the top nav to jump lanes instantly.</div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Contact -->
+    <!-- REVIEWS TICKER (under all portfolio, no box) -->
+    <section class="reviews" aria-label="Reviews ticker">
+      <div class="reviews-track" id="reviewsTrack">
+        <div>“[She’s] like a Perfect Apple. Like I want to take a bite, but also I can’t.” <span>— A Random Woman</span></div>
+        <div>“[She] really impressed me tonight. raised his Modelo” <span>— Casting Director</span></div>
+        <div>“I hadn’t had that much fun at a shoot in a long time.” <span>— Photographer</span></div>
+        <div>“If I could see inside [her] head I feel like I’d be overwhelmed, but [she’s] always on time and off book.” <span>— Director</span></div>
+        <div>“[She is] trying to do a lot, but if there’s anyone who can handle a lot it’s [her].” <span>— Editor</span></div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
     <section id="contact" aria-label="Contact">
       <div class="contact-card">
         <h3>Contact</h3>
-        <p style="margin:0; opacity:.92; line-height:1.7;">
-          Casting-friendly, small form coming next (GitHub Pages compatible). For now:
-        </p>
         <div class="contact-row">
           <a href="mailto:emery.g.scott@gmail.com">emery.g.scott@gmail.com</a>
           <a href="https://www.instagram.com/emery_.s/" target="_blank" rel="noopener">Instagram</a>
@@ -1013,55 +866,92 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
   </header>
 
   <script>
-    // Seamless ticker: clone contents once, animate wrapper -50%
-    (function tickerLoop(){
-      const track = document.getElementById('tickerTrack');
+    // About expand
+    const aboutToggle = document.getElementById('aboutToggle');
+    const aboutMore = document.getElementById('aboutMore');
+    aboutToggle.addEventListener('click', () => aboutMore.classList.toggle('open'));
+
+    // Accordion
+    document.querySelectorAll('.acc-item .acc-btn').forEach(btn => {
+      btn.addEventListener('click', () => btn.closest('.acc-item').classList.toggle('open'));
+    });
+
+    // Reviews ticker seamless loop (clone once)
+    (function(){
+      const track = document.getElementById('reviewsTrack');
       const clone = track.cloneNode(true);
       clone.setAttribute('aria-hidden','true');
+      track.parentElement.appendChild(clone);
 
+      // Wrap both in a flex row that the CSS animation moves -50%
       const wrapper = document.createElement('div');
-      wrapper.className = 'ticker-track';
+      wrapper.className = 'reviews-track';
       wrapper.style.animation = getComputedStyle(track).animation;
       track.style.animation = 'none';
+      clone.style.animation = 'none';
 
       track.parentElement.insertBefore(wrapper, track);
       wrapper.appendChild(track);
       wrapper.appendChild(clone);
     })();
 
-    // About expand (with ARIA + caret rotation)
-    const aboutToggle = document.getElementById('aboutToggle');
-    const aboutMore = document.getElementById('aboutMore');
-    const aboutCaret = document.getElementById('aboutCaret');
-
-    aboutToggle.addEventListener('click', () => {
-      const open = aboutMore.classList.toggle('open');
-      aboutMore.setAttribute('aria-hidden', String(!open));
-      aboutToggle.setAttribute('aria-expanded', String(open));
-      aboutCaret.style.transform = open ? 'rotate(225deg)' : 'rotate(45deg)';
-    });
-
-    // Accordion behavior (no auto-open; independent)
-    document.querySelectorAll('.acc-item .acc-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const item = btn.closest('.acc-item');
-        item.classList.toggle('open');
-      });
-    });
-
-    // Reveal + slider
+    // Reveal + slider + “page wash”
     const reveal = document.getElementById('reveal');
     const slider = document.getElementById('slider');
     const closeStage = document.getElementById('closeStage');
 
     const panelIndex = { acting:0, modeling:1, writing:2, vo:3 };
 
+    // Theme washes per lane (subtle infection)
+    const washes = {
+      acting:  { A:'rgba(147,164,150,.22)', B:'rgba(167,162,184,.14)', C:'rgba(201,176,123,.06)' },
+      modeling:{ A:'rgba(199,160,166,.20)', B:'rgba(201,176,123,.12)', C:'rgba(147,164,150,.06)' },
+      writing: { A:'rgba(139,107,82,.10)',  B:'rgba(199,160,166,.12)', C:'rgba(167,162,184,.08)' },
+      vo:      { A:'rgba(147,164,150,.16)', B:'rgba(0,0,0,.05)',      C:'rgba(167,162,184,.10)' }
+    };
+
+    function setWash(key){
+      const w = washes[key] || washes.acting;
+      document.documentElement.style.setProperty('--washA', w.A);
+      document.documentElement.style.setProperty('--washB', w.B);
+      document.documentElement.style.setProperty('--washC', w.C);
+    }
+    function clearWash(){
+      document.documentElement.style.setProperty('--washA','rgba(147,164,150,.00)');
+      document.documentElement.style.setProperty('--washB','rgba(199,160,166,.00)');
+      document.documentElement.style.setProperty('--washC','rgba(167,162,184,.00)');
+    }
+
+    // Choice UI behavior
+    function setActiveChoice(key){
+      const pills = document.querySelectorAll('.chooserGo');
+      pills.forEach(p => {
+        const is = p.dataset.go === key;
+        p.classList.toggle('active', is);
+        p.classList.toggle('dim', !is);
+      });
+    }
+    function clearChoices(){
+      document.querySelectorAll('.chooserGo').forEach(p => {
+        p.classList.remove('active','dim');
+      });
+    }
+
     function openPanel(key){
-      if(!reveal.classList.contains('open')) reveal.classList.add('open');
+      // expand the room around you
+      reveal.classList.add('open');
+
+      // set page wash
+      setWash(key);
+
+      // make chosen button “settle back”
+      setActiveChoice(key);
+
+      // slide horizontally inside the revealed room
       const idx = panelIndex[key] ?? 0;
       slider.style.transform = `translateX(-${idx * 25}%)`;
 
-      // gentle nudge to stage (not a scroll-site vibe)
+      // small, polite nudge (not a long scroll)
       reveal.scrollIntoView({ behavior:'smooth', block:'start' });
     }
 
@@ -1071,31 +961,17 @@ Actress, model, writer. My medium may shift, but the intent remains. Some call m
 
     closeStage.addEventListener('click', () => {
       reveal.classList.remove('open');
+      clearWash();
+      clearChoices();
     });
 
     document.getElementById('navContact').addEventListener('click', () => {
       document.getElementById('contact').scrollIntoView({ behavior:'smooth', block:'start' });
     });
 
-    // Optional: auto-enable hero/headshot image classes if files exist (best effort)
-    // (Doesn't break if they don't exist)
-    (function tryImages(){
-      const hero = document.querySelector('.hero');
-      const head = document.querySelector('.headshot');
-      // If you remove the "has-image" class, this will add it back only if the image loads.
-      // Leave classes as-is if you already added assets.
-      const test = (url, el, cls) => {
-        const img = new Image();
-        img.onload = () => el.classList.add(cls);
-        img.src = url;
-      };
-      // If you haven't added assets, keep fallback gradients.
-      // Uncomment if you want automatic toggling:
-      // hero.classList.remove('has-image');
-      // head.classList.remove('has-image');
-      // test('./assets/images/hero.jpg', hero, 'has-image');
-      // test('./assets/images/headshot.jpg', head, 'has-image');
-    })();
+    // Start neutral wash
+    clearWash();
   </script>
 </body>
 </html>
+
