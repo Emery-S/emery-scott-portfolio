@@ -1,11 +1,12 @@
 "use client";
 
 import * as React from "react";
+import Image from "next/image";
 import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
 type Lane = "home" | "acting" | "modeling" | "writing";
 
-type ActingStage = "split" | "single" | "sub";
+type ActingStage = "split" | "single" | "sub" | "voice_over";
 type ActingSide = "reels" | "galleries";
 type ActingSub = "film_tv" | "vocal" | "dance" | "commercial" | "stage" | "drama";
 
@@ -102,7 +103,7 @@ export default function Page() {
     switch (lane) {
       case "acting":
         return {
-          tintA: "from-zinc-950/95 via-zinc-950/70 to-zinc-900/60",
+          tintA: "from-amber-950/95 via-amber-950/70 to-amber-900/60",
           veil: 0.62,
           grain: 0.22,
           blur: 2,
@@ -112,7 +113,7 @@ export default function Page() {
         };
       case "modeling":
         return {
-          tintA: "from-zinc-100/80 via-neutral-100/70 to-zinc-200/60",
+          tintA: "from-amber-100/80 via-amber-50/70 to-amber-200/60",
           veil: 0.28,
           grain: 0.12,
           blur: 0.6,
@@ -122,7 +123,7 @@ export default function Page() {
         };
       case "writing":
         return {
-          tintA: "from-amber-50/70 via-stone-100/60 to-amber-100/55",
+          tintA: "from-amber-50/70 via-amber-100/60 to-amber-100/55",
           veil: 0.34,
           grain: 0.16,
           blur: 1.2,
@@ -132,7 +133,7 @@ export default function Page() {
         };
       default:
         return {
-          tintA: "from-stone-50/65 via-neutral-50/55 to-stone-100/45",
+          tintA: "from-amber-950/65 via-amber-900/55 to-amber-800/45",
           veil: 0.34,
           grain: 0.14,
           blur: 0.9,
@@ -159,7 +160,7 @@ export default function Page() {
   );
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-zinc-950">
+    <div className="min-h-screen bg-neutral-950">
       {/* Subtle global styles (painterly noise + masking helpers) */}
       <style>{`
         .noise::before{
@@ -209,7 +210,7 @@ export default function Page() {
           transition={{ duration: 1.1, ease: EASE }}
           style={{
             background:
-              "radial-gradient(900px 520px at 50% 12%, rgba(255,255,255,0.70), rgba(255,255,255,0.15) 55%, rgba(255,255,255,0) 85%)",
+              "radial-gradient(900px 520px at 50% 12%, rgba(251,191,36,0.25), rgba(251,191,36,0.08) 55%, rgba(251,191,36,0) 85%)",
             mixBlendMode: "soft-light",
           }}
         />
@@ -396,7 +397,7 @@ export default function Page() {
           {/* Lane title plane + Back reversal cue */}
           <div className="relative mb-10 flex items-center justify-between">
             <motion.div
-              className="text-[12px] tracking-[0.22em] text-zinc-700"
+              className="text-[12px] tracking-[0.22em] text-amber-100/80"
               animate={
                 reduce
                   ? {}
@@ -439,7 +440,7 @@ export default function Page() {
               {lane === "home" && (
                 <motion.div
                   key="home"
-                  className="soft-mask text-zinc-800"
+                  className="soft-mask text-amber-50/85"
                   initial={reduce ? { opacity: 1 } : { opacity: 0, y: 18, filter: "blur(8px)" }}
                   animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, filter: "blur(0px)" }}
                   exit={reduce ? { opacity: 0 } : { opacity: 0, y: 12, filter: "blur(10px)" }}
@@ -449,7 +450,7 @@ export default function Page() {
                     The world below is waiting to be lit. Choose a threshold when you’re ready; the foreground stays with you.
                   </p>
 
-                  <div className="mt-16 h-px w-full bg-zinc-950/10" />
+                  <div className="mt-16 h-px w-full bg-amber-50/20" />
                 </motion.div>
               )}
 
@@ -466,7 +467,18 @@ export default function Page() {
                   {/* Deepening veil */}
                   <motion.div
                     className="pointer-events-none absolute inset-0 -z-10"
-                    animate={reduce ? {} : { opacity: actingStage === "sub" ? 0.72 : 0.58 }}
+                    animate={
+                      reduce
+                        ? {}
+                        : {
+                            opacity:
+                              actingStage === "voice_over"
+                                ? 0.45
+                                : actingStage === "sub"
+                                ? 0.72
+                                : 0.58,
+                          }
+                    }
                     transition={{ duration: 1.0, ease: EASE }}
                     style={{
                       background:
@@ -476,11 +488,12 @@ export default function Page() {
                   />
 
                   {/* Stage header presence */}
-                  <div className="mb-6 flex items-baseline justify-between gap-6 text-[12px] tracking-[0.22em] text-zinc-200/80">
+                  <div className="mb-6 flex items-baseline justify-between gap-6 text-[12px] tracking-[0.22em] text-amber-100/80">
                     <div>
                       {actingStage === "split" && "ACTING — SPLIT"}
                       {actingStage === "single" && `ACTING — ${actingSide.toUpperCase()}`}
                       {actingStage === "sub" && `ACTING — ${actingSide.toUpperCase()} / ${labelForSub(actingSub)}`}
+                      {actingStage === "voice_over" && "ACTING — VOICE OVER"}
                     </div>
                     <div className="opacity-70">{actingStage !== "split" ? "STEP BACK" : ""}</div>
                   </div>
@@ -539,14 +552,14 @@ export default function Page() {
 
                             {/* Single blurred stage: two sides, one vertical seam */}
                             <div className="paper-mask py-10">
-                              <p className="max-w-[78ch] text-[14px] leading-[1.9] text-zinc-100/85">
+                              <p className="max-w-[78ch] text-[14px] leading-[1.9] text-amber-50/85">
                                 A single blurred stage divided by a vertical seam. Click left for Reels, right for Galleries.
                               </p>
 
                               <div className="relative mt-10 overflow-hidden">
                                 {/* Vertical seam dividing the stage */}
                                 <div
-                                  className="pointer-events-none absolute inset-y-0 left-1/2 w-[2px] bg-white/10"
+                                  className="pointer-events-none absolute inset-y-0 left-1/2 w-[2px] bg-amber-50/10"
                                   style={{ boxShadow: "0 0 44px rgba(255,255,255,0.06)" }}
                                 />
 
@@ -557,8 +570,8 @@ export default function Page() {
                                     animate={reduce ? {} : { filter: "blur(4px) brightness(0.92)", opacity: 0.95 }}
                                     transition={{ duration: 1.0, ease: EASE }}
                                   >
-                                    <div className="text-[12px] tracking-[0.26em] text-zinc-100/75">REELS</div>
-                                    <div className="mt-5 space-y-7 text-zinc-100/70">
+                                    <div className="text-[12px] tracking-[0.26em] text-amber-50/75">REELS</div>
+                                    <div className="mt-5 space-y-7 text-amber-50/70">
                                       <GhostLine />
                                       <GhostLine />
                                       <GhostLine />
@@ -570,8 +583,8 @@ export default function Page() {
                                     animate={reduce ? {} : { filter: "blur(4px) brightness(0.92)", opacity: 0.95 }}
                                     transition={{ duration: 1.0, ease: EASE }}
                                   >
-                                    <div className="text-[12px] tracking-[0.26em] text-zinc-100/75">GALLERIES</div>
-                                    <div className="mt-5 space-y-7 text-zinc-100/70">
+                                    <div className="text-[12px] tracking-[0.26em] text-amber-50/75">GALLERIES</div>
+                                    <div className="mt-5 space-y-7 text-amber-50/70">
                                       <GhostLine />
                                       <GhostLine />
                                       <GhostLine />
@@ -579,7 +592,27 @@ export default function Page() {
                                   </motion.div>
                                 </div>
 
-                                <div className="pointer-events-none mt-10 h-px w-full bg-white/10" />
+                                <div className="pointer-events-none mt-10 h-px w-full bg-amber-50/10" />
+                              </div>
+
+                              {/* Voice Over button */}
+                              <div className="mt-12 flex justify-center">
+                                <motion.button
+                                  type="button"
+                                  onClick={() => {
+                                    pushSnapshot({
+                                      lane: "acting",
+                                      actingStage: "voice_over",
+                                      actingSub: null,
+                                    });
+                                    setLane("acting");
+                                    setActingStage("voice_over");
+                                  }}
+                                  className="text-[12px] tracking-[0.22em] text-amber-100/75 hover:text-amber-50 transition-colors"
+                                  whileTap={reduce ? undefined : { scale: 0.99 }}
+                                >
+                                  VOICE OVER
+                                </motion.button>
                               </div>
                             </div>
                           </div>
@@ -613,15 +646,15 @@ export default function Page() {
                           transition={{ duration: 1.05, ease: EASE }}
                         >
                           <div className="paper-mask py-10">
-                            <div className="text-[13px] tracking-[0.24em] text-zinc-100/90">
+                            <div className="text-[13px] tracking-[0.24em] text-amber-50/90">
                               {actingSide === "reels" ? "REELS" : "GALLERIES"}
                             </div>
 
-                            <p className="mt-4 max-w-[78ch] text-[14px] leading-[1.9] text-zinc-100/80">
+                            <p className="mt-4 max-w-[78ch] text-[14px] leading-[1.9] text-amber-50/80">
                               Select a subsection. Nothing opens automatically.
                             </p>
 
-                            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-[12px] tracking-[0.22em] text-zinc-200/75">
+                            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-[12px] tracking-[0.22em] text-amber-100/75">
                               {actingSide === "reels" ? (
                                 <>
                                   <SubLink
@@ -721,7 +754,7 @@ export default function Page() {
                               )}
                             </div>
 
-                            <div className="mt-10 h-px w-full bg-white/10" />
+                            <div className="mt-10 h-px w-full bg-amber-50/10" />
                           </div>
                         </motion.div>
                       )}
@@ -737,15 +770,15 @@ export default function Page() {
                           transition={{ duration: 1.05, ease: EASE }}
                         >
                           <div className="paper-mask py-10">
-                            <div className="text-[13px] tracking-[0.24em] text-zinc-100/90">
+                            <div className="text-[13px] tracking-[0.24em] text-amber-50/90">
                               {actingSide === "reels" ? "REELS" : "GALLERIES"} / {labelForSub(actingSub)}
                             </div>
 
-                            <p className="mt-4 max-w-[78ch] text-[14px] leading-[1.95] text-zinc-100/80">
+                            <p className="mt-4 max-w-[78ch] text-[14px] leading-[1.95] text-amber-50/80">
                               This content is revealed only because you chose it. Keep media dormant until the viewer engages.
                             </p>
 
-                            <div className="mt-10 space-y-8 text-zinc-100/80">
+                            <div className="mt-10 space-y-8 text-amber-50/80">
                               <ActingContentBlock
                                 title={labelForSub(actingSub)}
                                 body="Placeholder content. Replace with curated items that do not auto-play or auto-open."
@@ -756,7 +789,56 @@ export default function Page() {
                               <ActingContentBlock title="ITEM THREE" body="Credit / descriptor placeholder." />
                             </div>
 
-                            <div className="mt-10 h-px w-full bg-white/10" />
+                            <div className="mt-10 h-px w-full bg-amber-50/10" />
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {/* VOICE OVER: Quiet, interior, audio-forward */}
+                      {actingStage === "voice_over" && (
+                        <motion.div
+                          key="acting-voice-over"
+                          className="relative"
+                          initial={reduce ? { opacity: 1 } : { opacity: 0, y: 12, filter: "blur(8px)" }}
+                          animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, filter: "blur(0px)" }}
+                          exit={reduce ? { opacity: 0 } : { opacity: 0, y: 8, filter: "blur(10px)" }}
+                          transition={{ duration: 1.2, ease: EASE }}
+                        >
+                          {/* Softer veil for listening */}
+                          <motion.div
+                            className="pointer-events-none absolute inset-0 -z-10"
+                            animate={reduce ? {} : { opacity: 0.35 }}
+                            transition={{ duration: 1.2, ease: EASE }}
+                            style={{
+                              background:
+                                "radial-gradient(1200px 800px at 50% 25%, rgba(0,0,0,0.52), rgba(0,0,0,0.18) 55%, rgba(0,0,0,0) 85%)",
+                              mixBlendMode: "multiply",
+                            }}
+                          />
+
+                          <div className="paper-mask py-12">
+                            <div className="text-[13px] tracking-[0.24em] text-amber-50/85">VOICE OVER</div>
+
+                            <p className="mt-6 max-w-[78ch] text-[14px] leading-[2.0] text-amber-50/75">
+                              Quiet, interior, audio-forward. The visual field softens to allow listening. Content arrives only when you choose to engage.
+                            </p>
+
+                            <div className="mt-12 space-y-10 text-amber-50/80">
+                              <VoiceOverItem
+                                title="DEMO ONE"
+                                description="Narrative, character, commercial. Replace with audio player that remains dormant until activated."
+                              />
+                              <VoiceOverItem
+                                title="DEMO TWO"
+                                description="Placeholder for curated voice work. Audio should not auto-play."
+                              />
+                              <VoiceOverItem
+                                title="DEMO THREE"
+                                description="Credit and descriptor placeholder. Each item waits for intentional engagement."
+                              />
+                            </div>
+
+                            <div className="mt-12 h-px w-full bg-amber-50/8" />
                           </div>
                         </motion.div>
                       )}
@@ -782,7 +864,7 @@ export default function Page() {
                     transition={{ duration: 1.1, ease: EASE }}
                     style={{
                       background:
-                        "radial-gradient(900px 520px at 50% 10%, rgba(255,255,255,0.85), rgba(255,255,255,0.35) 55%, rgba(255,255,255,0) 82%)",
+                        "radial-gradient(900px 520px at 50% 10%, rgba(251,191,36,0.35), rgba(251,191,36,0.15) 55%, rgba(251,191,36,0) 82%)",
                       mixBlendMode: "soft-light",
                     }}
                   />
@@ -794,7 +876,7 @@ export default function Page() {
                     animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, filter: "blur(0px)" }}
                     transition={{ delay: reduce ? 0 : 0.12, duration: 1.0, ease: EASE }}
                   >
-                    <p className="max-w-[70ch] text-[14px] leading-[1.85] text-zinc-900/80">
+                    <p className="max-w-[70ch] text-[14px] leading-[1.85] text-amber-50/85">
                       Digitals remain present—always. Structured, intentional, editorial. Replace these placeholders with curated digitals and
                       measured captions.
                     </p>
@@ -806,11 +888,11 @@ export default function Page() {
                       <ModelingLine label="Location" value="—" />
                     </div>
 
-                    <div className="mt-10 h-px w-full bg-zinc-950/10" />
+                    <div className="mt-10 h-px w-full bg-amber-50/10" />
                   </motion.div>
 
                   {/* Categories unfold downward; nothing above collapses */}
-                  <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-[12px] tracking-[0.22em] text-zinc-700">
+                  <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-[12px] tracking-[0.22em] text-amber-100/80">
                     <ModelingCatLink
                       active={modelingCat === "editorial"}
                       label="EDITORIAL"
@@ -852,7 +934,7 @@ export default function Page() {
                       exit={reduce ? { opacity: 0 } : { opacity: 0, y: 10, filter: "blur(12px)" }}
                       transition={{ duration: 1.05, ease: EASE }}
                     >
-                      <p className="max-w-[78ch] text-[14px] leading-[1.9] text-zinc-900/80">
+                      <p className="max-w-[78ch] text-[14px] leading-[1.9] text-amber-50/85">
                         {modelingCat === "editorial" &&
                           "Editorial: narrative clarity. Later: curated editorials with title, publication, photographer, and a restrained sequence."}
                         {modelingCat === "commercial" &&
@@ -894,13 +976,13 @@ export default function Page() {
                   />
 
                   <div className="paper-mask">
-                    <p className="max-w-[70ch] text-[14px] leading-[1.9] text-zinc-900/80">
+                    <p className="max-w-[70ch] text-[14px] leading-[1.9] text-amber-50/85">
                       Writing arrives like ink settling—slow, intimate, and present in the surface.
                     </p>
 
                     {/* Ink-like arrival: opacity + blur + slight drift */}
                     <motion.div
-                      className="mt-10 max-w-[78ch] text-[15px] leading-[2.0] text-zinc-950"
+                      className="mt-10 max-w-[78ch] text-[15px] leading-[2.0] text-amber-50/90"
                       initial={
                         reduce
                           ? { opacity: 1 }
@@ -926,7 +1008,7 @@ export default function Page() {
                       </p>
                     </motion.div>
 
-                    <div className="mt-14 h-px w-full bg-zinc-950/10" />
+                    <div className="mt-14 h-px w-full bg-amber-50/20" />
                   </div>
                 </motion.div>
               )}
@@ -963,7 +1045,7 @@ function Threshold({
     <motion.button
       type="button"
       onClick={onEnter}
-      className={cx("relative text-left", "text-zinc-700 hover:text-zinc-950 transition-colors")}
+      className={cx("relative text-left", "text-amber-100/80 hover:text-amber-50 transition-colors")}
       initial={false}
       animate={
         reduce
@@ -980,7 +1062,7 @@ function Threshold({
       <span className="relative">
         {label.toUpperCase()}
         <motion.span
-          className="pointer-events-none absolute -bottom-2 left-0 right-0 h-[1px] bg-zinc-950/30"
+          className="pointer-events-none absolute -bottom-2 left-0 right-0 h-[1px] bg-amber-50/20"
           initial={false}
           animate={reduce ? {} : { opacity: active ? 0.8 : 0, scaleX: active ? 1 : 0.65 }}
           transition={{ duration: 0.8, ease: EASE }}
@@ -1006,7 +1088,7 @@ function ModelingCatLink({
     <motion.button
       type="button"
       onClick={onEnter}
-      className={cx("text-left", "text-zinc-700 hover:text-zinc-950 transition-colors")}
+      className={cx("text-left", "text-amber-100/80 hover:text-amber-50 transition-colors")}
       initial={false}
       animate={
         reduce
@@ -1028,18 +1110,18 @@ function ModelingCatLink({
 function ModelingLine({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline justify-between gap-8">
-      <div className="text-[12px] tracking-[0.22em] text-zinc-700">{label.toUpperCase()}</div>
-      <div className="text-[14px] text-zinc-950/80">{value}</div>
+      <div className="text-[12px] tracking-[0.22em] text-amber-100/80">{label.toUpperCase()}</div>
+      <div className="text-[14px] text-amber-50/85">{value}</div>
     </div>
   );
 }
 
 function ModelingItem({ title, subtitle }: { title: string; subtitle: string }) {
   return (
-    <div className="text-zinc-950/85">
+    <div className="text-amber-50/85">
       <div className="text-[13px] tracking-[0.14em]">{title.toUpperCase()}</div>
-      <div className="mt-2 text-[14px] leading-[1.85] text-zinc-900/75">{subtitle}</div>
-      <div className="mt-6 h-px w-full bg-zinc-950/10" />
+      <div className="mt-2 text-[14px] leading-[1.85] text-amber-50/75">{subtitle}</div>
+      <div className="mt-6 h-px w-full bg-amber-50/20" />
     </div>
   );
 }
@@ -1068,7 +1150,7 @@ function DriftingReviews({ reviews, reduce }: { reviews: string[]; reduce: boole
           return (
             <motion.div
               key={i}
-              className="whitespace-nowrap text-[13px] leading-[1.9] tracking-[0.02em] text-zinc-800/70"
+              className="whitespace-nowrap text-[13px] leading-[1.9] tracking-[0.02em] text-amber-50/70"
               initial={false}
               animate={reduce ? { opacity: 0.75, x: "0%" } : { opacity: 0.78, x: [`${start}%`, `${end}%`] }}
               transition={reduce ? { duration: 0 } : { duration, ease: "linear", repeat: Infinity }}
@@ -1086,8 +1168,8 @@ function DriftingReviews({ reviews, reduce }: { reviews: string[]; reduce: boole
 function Contact() {
   return (
     <div className="relative">
-      <div className="text-[12px] tracking-[0.22em] text-zinc-700">CONTACT</div>
-      <div className="mt-6 max-w-[72ch] text-[14px] leading-[1.9] text-zinc-800">
+      <div className="text-[12px] tracking-[0.22em] text-amber-100/80">CONTACT</div>
+      <div className="mt-6 max-w-[72ch] text-[14px] leading-[1.9] text-amber-50/85">
         Calm, human, direct. No decorative motion here.
       </div>
 
@@ -1102,14 +1184,14 @@ function Contact() {
         <Field label="Email" placeholder="your@email.com" />
         <Field label="Message" placeholder="A note…" multiline />
 
-        <div className="pt-2 text-[12px] tracking-[0.12em] text-zinc-700">
+        <div className="pt-2 text-[12px] tracking-[0.12em] text-amber-100/80">
           Email:{" "}
-          <a className="text-zinc-950/80 hover:text-zinc-950" href="mailto:emeryscott.artist@gmail.com">
+          <a className="text-amber-50/90 hover:text-amber-50" href="mailto:emeryscott.artist@gmail.com">
             emeryscott.artist@gmail.com
           </a>
         </div>
 
-        <button type="submit" className="text-[12px] tracking-[0.22em] text-zinc-700 hover:text-zinc-950 transition-colors">
+        <button type="submit" className="text-[12px] tracking-[0.22em] text-amber-100/80 hover:text-amber-50 transition-colors">
           SEND
         </button>
       </form>
@@ -1127,12 +1209,12 @@ function Field({
   multiline?: boolean;
 }) {
   const common =
-    "w-full bg-transparent text-zinc-950 placeholder:text-zinc-500/70 outline-none " + "text-[14px] leading-[1.8]";
+    "w-full bg-transparent text-amber-50/90 placeholder:text-amber-100/50 outline-none " + "text-[14px] leading-[1.8]";
   return (
     <div className="space-y-2">
-      <div className="text-[12px] tracking-[0.22em] text-zinc-700">{label.toUpperCase()}</div>
+      <div className="text-[12px] tracking-[0.22em] text-amber-100/80">{label.toUpperCase()}</div>
       {multiline ? <textarea className={cx(common, "min-h-[120px] resize-y")} placeholder={placeholder} /> : <input className={common} placeholder={placeholder} />}
-      <div className="h-px w-full bg-zinc-950/10" />
+      <div className="h-px w-full bg-amber-50/20" />
     </div>
   );
 }
@@ -1158,7 +1240,7 @@ function labelForSub(sub: ActingSub | null) {
 }
 
 function GhostLine() {
-  return <div className="h-[10px] w-full bg-white/10" style={{ filter: "blur(0.4px)" }} />;
+  return <div className="h-[10px] w-full bg-amber-50/10" style={{ filter: "blur(0.4px)" }} />;
 }
 
 function SubLink({
@@ -1176,7 +1258,7 @@ function SubLink({
     <motion.button
       type="button"
       onClick={onEnter}
-      className="text-left text-zinc-200/75 hover:text-zinc-100 transition-colors"
+      className="text-left text-amber-100/75 hover:text-amber-50 transition-colors"
       initial={false}
       animate={
         reduce
@@ -1198,9 +1280,19 @@ function SubLink({
 function ActingContentBlock({ title, body }: { title: string; body: string }) {
   return (
     <div>
-      <div className="text-[12px] tracking-[0.26em] text-zinc-100/85">{title}</div>
-      <div className="mt-3 text-[14px] leading-[1.95] text-zinc-100/75">{body}</div>
-      <div className="mt-7 h-px w-full bg-white/10" />
+      <div className="text-[12px] tracking-[0.26em] text-amber-50/85">{title}</div>
+      <div className="mt-3 text-[14px] leading-[1.95] text-amber-50/75">{body}</div>
+      <div className="mt-7 h-px w-full bg-amber-50/10" />
+    </div>
+  );
+}
+
+function VoiceOverItem({ title, description }: { title: string; description: string }) {
+  return (
+    <div>
+      <div className="text-[12px] tracking-[0.24em] text-amber-50/80">{title}</div>
+      <div className="mt-4 text-[14px] leading-[2.0] text-amber-50/70">{description}</div>
+      <div className="mt-8 h-px w-full bg-amber-50/8" />
     </div>
   );
 }
