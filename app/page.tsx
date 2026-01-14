@@ -4,14 +4,20 @@ import * as React from "react";
 import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
 type Lane = "home" | "acting" | "modeling" | "writing";
-type ActingDest = "reels" | "galleries" | "voiceover";
+
+type ActingStage = "split" | "single" | "sub";
+type ActingSide = "reels" | "galleries";
+type ActingSub = "film_tv" | "vocal" | "dance" | "commercial" | "stage" | "drama";
+
 type ModelingCat = "editorial" | "commercial" | "runway";
 
 const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
 type Snapshot = {
   lane: Lane;
-  actingDest: ActingDest;
+  actingStage: ActingStage;
+  actingSide: ActingSide;
+  actingSub: ActingSub | null;
   modelingCat: ModelingCat;
 };
 
@@ -26,37 +32,51 @@ export default function Page() {
 
   // --- State as "being" + a simple reversible history
   const [lane, setLane] = React.useState<Lane>("home");
-  const [actingDest, setActingDest] = React.useState<ActingDest>("reels");
+
+  const [actingStage, setActingStage] = React.useState<ActingStage>("split");
+  const [actingSide, setActingSide] = React.useState<ActingSide>("reels");
+  const [actingSub, setActingSub] = React.useState<ActingSub | null>(null);
+
   const [modelingCat, setModelingCat] = React.useState<ModelingCat>("editorial");
   const [bioOpen, setBioOpen] = React.useState(false);
 
   const [history, setHistory] = React.useState<Snapshot[]>([
-    { lane: "home", actingDest: "reels", modelingCat: "editorial" },
+    {
+      lane: "home",
+      actingStage: "split",
+      actingSide: "reels",
+      actingSub: null,
+      modelingCat: "editorial",
+    },
   ]);
 
-  const pushSnapshot = React.useCallback(
-    (next: Partial<Snapshot>) => {
-      setHistory((prev) => {
-        const curr = prev[prev.length - 1];
-        const merged: Snapshot = {
-          lane: next.lane ?? curr.lane,
-          actingDest: next.actingDest ?? curr.actingDest,
-          modelingCat: next.modelingCat ?? curr.modelingCat,
-        };
-        // avoid duplicates
-        const same =
-          merged.lane === curr.lane &&
-          merged.actingDest === curr.actingDest &&
-          merged.modelingCat === curr.modelingCat;
-        return same ? prev : [...prev, merged];
-      });
-    },
-    [setHistory]
-  );
+  const pushSnapshot = React.useCallback((next: Partial<Snapshot>) => {
+    setHistory((prev) => {
+      const curr = prev[prev.length - 1];
+      const merged: Snapshot = {
+        lane: next.lane ?? curr.lane,
+        actingStage: next.actingStage ?? curr.actingStage,
+        actingSide: next.actingSide ?? curr.actingSide,
+        actingSub: next.actingSub ?? curr.actingSub,
+        modelingCat: next.modelingCat ?? curr.modelingCat,
+      };
+
+      const same =
+        merged.lane === curr.lane &&
+        merged.actingStage === curr.actingStage &&
+        merged.actingSide === curr.actingSide &&
+        merged.actingSub === curr.actingSub &&
+        merged.modelingCat === curr.modelingCat;
+
+      return same ? prev : [...prev, merged];
+    });
+  }, []);
 
   const applySnapshot = React.useCallback((s: Snapshot) => {
     setLane(s.lane);
-    setActingDest(s.actingDest);
+    setActingStage(s.actingStage);
+    setActingSide(s.actingSide);
+    setActingSub(s.actingSub);
     setModelingCat(s.modelingCat);
   }, []);
 
@@ -123,15 +143,6 @@ export default function Page() {
     }
   }, [lane]);
 
-  // Acting seam position: a living divide, revealed by masking and focus, not by sliding.
-  const seam = React.useMemo(() => {
-    if (lane !== "acting") return 0.5;
-    if (actingDest === "reels") return 0.46;
-    if (actingDest === "galleries") return 0.54;
-    return 0.5; // voiceover centers the split, then softens it
-  }, [lane, actingDest]);
-
-  // Back presence: shares plane with lane title (not a button; a reversal cue).
   const canBack = history.length > 1;
 
   // Minimal data (replace with real assets later)
@@ -175,11 +186,7 @@ export default function Page() {
 
       {/* Continuous canvas */}
       <motion.div
-        className={cx(
-          "relative overflow-hidden",
-          "noise",
-          "min-h-screen"
-        )}
+        className={cx("relative overflow-hidden", "noise", "min-h-screen")}
         animate={
           reduce
             ? {}
@@ -191,24 +198,14 @@ export default function Page() {
       >
         {/* Atmospheric veil (persistent) */}
         <motion.div
-          className={cx(
-            "pointer-events-none absolute inset-0",
-            "bg-gradient-to-b",
-            world.tintA
-          )}
+          className={cx("pointer-events-none absolute inset-0", "bg-gradient-to-b", world.tintA)}
           animate={reduce ? {} : { opacity: 1 }}
           transition={{ duration: 1.1, ease: EASE }}
           style={{ opacity: 1 }}
         />
         <motion.div
           className="pointer-events-none absolute inset-0"
-          animate={
-            reduce
-              ? {}
-              : {
-                  opacity: world.veil,
-                }
-          }
+          animate={reduce ? {} : { opacity: world.veil }}
           transition={{ duration: 1.1, ease: EASE }}
           style={{
             background:
@@ -220,10 +217,7 @@ export default function Page() {
         {/* Top field: identity remains perceptually present (not fixed) */}
         <div className="relative mx-auto max-w-[980px] px-6 pt-14 sm:pt-20">
           <motion.div
-            className={cx(
-              "relative",
-              "select-none"
-            )}
+            className={cx("relative", "select-none")}
             style={{
               y: reduce ? 0 : idY,
               scale: reduce ? 1 : idScale,
@@ -263,10 +257,7 @@ export default function Page() {
                 >
                   IMDb
                 </a>
-                <a
-                  className="opacity-70 hover:opacity-100 transition-opacity"
-                  href="mailto:emeryscott.artist@gmail.com"
-                >
+                <a className="opacity-70 hover:opacity-100 transition-opacity" href="mailto:emeryscott.artist@gmail.com">
                   Email
                 </a>
               </div>
@@ -289,7 +280,8 @@ export default function Page() {
               transition={{ duration: 0.9, ease: EASE }}
             >
               <p className="italic">
-                “I have been with story. I have gone without. In only one of those states did I feel I could truly live and so it lives always.”
+                “I have been with story. I have gone without. In only one of those states did I feel I could truly live
+                and so it lives always.”
                 <span className="not-italic"> — E. Scott</span>
               </p>
             </motion.div>
@@ -299,13 +291,7 @@ export default function Page() {
                 As a lover of words, I ache to write too much. But I have decided to restrain myself. In brief… I am a{" "}
                 <motion.span
                   className="relative inline-block cursor-default"
-                  animate={
-                    reduce
-                      ? {}
-                      : {
-                          opacity: [0.92, 1, 0.92],
-                        }
-                  }
+                  animate={reduce ? {} : { opacity: [0.92, 1, 0.92] }}
                   transition={
                     reduce
                       ? undefined
@@ -356,8 +342,8 @@ export default function Page() {
                       <p>
                         I work like someone listening for a line that’s already in the room. I’m drawn to the moment
                         before the confession, the second after the decision—when the body still remembers what it
-                        hasn’t said. I love craft. I love restraint. I love the patience it takes to let meaning
-                        arrive on its own.
+                        hasn’t said. I love craft. I love restraint. I love the patience it takes to let meaning arrive
+                        on its own.
                       </p>
                       <p className="mt-4">
                         I move between performance and image the way you move between memory and weather. Acting is my
@@ -375,8 +361,10 @@ export default function Page() {
                   active={lane === "acting"}
                   label="Acting"
                   onEnter={() => {
-                    pushSnapshot({ lane: "acting" });
+                    pushSnapshot({ lane: "acting", actingStage: "split", actingSub: null });
                     setLane("acting");
+                    setActingStage("split");
+                    setActingSub(null);
                   }}
                   reduce={reduce}
                 />
@@ -437,14 +425,7 @@ export default function Page() {
                 canBack ? "opacity-80 hover:opacity-100" : "opacity-0 pointer-events-none"
               )}
               initial={false}
-              animate={
-                reduce
-                  ? {}
-                  : {
-                      x: canBack ? 0 : 6,
-                      filter: lane === "acting" ? "brightness(1.08)" : "brightness(1)",
-                    }
-              }
+              animate={reduce ? {} : { x: canBack ? 0 : 6, filter: lane === "acting" ? "brightness(1.08)" : "brightness(1)" }}
               transition={{ duration: 0.8, ease: EASE }}
             >
               BACK
@@ -465,8 +446,7 @@ export default function Page() {
                   transition={{ duration: 1.0, ease: EASE }}
                 >
                   <p className="max-w-[70ch] text-[15px] leading-[1.8]">
-                    The world below is waiting to be lit. Choose a threshold when you’re ready; the foreground stays
-                    with you.
+                    The world below is waiting to be lit. Choose a threshold when you’re ready; the foreground stays with you.
                   </p>
 
                   <div className="mt-16 h-px w-full bg-zinc-950/10" />
@@ -486,178 +466,297 @@ export default function Page() {
                   {/* Deepening veil */}
                   <motion.div
                     className="pointer-events-none absolute inset-0 -z-10"
-                    animate={
-                      reduce
-                        ? {}
-                        : {
-                            opacity: actingDest === "voiceover" ? 0.72 : 0.55,
-                          }
-                    }
+                    animate={reduce ? {} : { opacity: actingStage === "sub" ? 0.72 : 0.58 }}
                     transition={{ duration: 1.0, ease: EASE }}
                     style={{
                       background:
-                        "radial-gradient(1100px 700px at 50% 20%, rgba(0,0,0,0.65), rgba(0,0,0,0.25) 50%, rgba(0,0,0,0) 78%)",
+                        "radial-gradient(1100px 700px at 50% 20%, rgba(0,0,0,0.68), rgba(0,0,0,0.28) 52%, rgba(0,0,0,0) 78%)",
                       mixBlendMode: "multiply",
                     }}
                   />
 
-                  {/* Acting destinations (reels / galleries / voice over) */}
-                  <div className="mb-6 flex flex-wrap items-center gap-x-8 gap-y-3 text-[12px] tracking-[0.22em] text-zinc-300/80">
-                    <ActingDestLink
-                      active={actingDest === "reels"}
-                      label="REELS"
-                      onEnter={() => {
-                        pushSnapshot({ lane: "acting", actingDest: "reels" });
-                        setActingDest("reels");
-                        setLane("acting");
-                      }}
-                      reduce={reduce}
-                    />
-                    <ActingDestLink
-                      active={actingDest === "galleries"}
-                      label="GALLERIES"
-                      onEnter={() => {
-                        pushSnapshot({ lane: "acting", actingDest: "galleries" });
-                        setActingDest("galleries");
-                        setLane("acting");
-                      }}
-                      reduce={reduce}
-                    />
-                    <ActingDestLink
-                      active={actingDest === "voiceover"}
-                      label="VOICE OVER"
-                      onEnter={() => {
-                        pushSnapshot({ lane: "acting", actingDest: "voiceover" });
-                        setActingDest("voiceover");
-                        setLane("acting");
-                      }}
-                      reduce={reduce}
-                    />
+                  {/* Stage header presence */}
+                  <div className="mb-6 flex items-baseline justify-between gap-6 text-[12px] tracking-[0.22em] text-zinc-200/80">
+                    <div>
+                      {actingStage === "split" && "ACTING — SPLIT"}
+                      {actingStage === "single" && `ACTING — ${actingSide.toUpperCase()}`}
+                      {actingStage === "sub" && `ACTING — ${actingSide.toUpperCase()} / ${labelForSub(actingSub)}`}
+                    </div>
+                    <div className="opacity-70">{actingStage !== "split" ? "STEP BACK" : ""}</div>
                   </div>
 
-                  {/* The split field formed by a seam + masks */}
+                  {/* --- SPLIT → SINGLE → SUBSECTION --- */}
                   <div className="relative overflow-hidden">
-                    {/* seam glow / tonal shift */}
-                    <motion.div
-                      className="pointer-events-none absolute inset-y-0 w-[2px] bg-white/10"
-                      style={{
-                        left: `${seam * 100}%`,
-                        boxShadow: "0 0 40px rgba(255,255,255,0.06)",
-                        opacity: actingDest === "voiceover" ? 0.12 : 0.5,
-                      }}
-                      animate={
-                        reduce ? {} : { left: `${seam * 100}%`, opacity: actingDest === "voiceover" ? 0.1 : 0.5 }
-                      }
-                      transition={{ duration: 1.1, ease: EASE }}
-                    />
-
-                    {/* LEFT: Reels (revealed by masking) */}
-                    <motion.div
-                      className="relative"
-                      animate={
-                        reduce
-                          ? {}
-                          : {
-                              filter:
-                                actingDest === "galleries"
-                                  ? "blur(6px) brightness(0.85)"
-                                  : actingDest === "voiceover"
-                                  ? "blur(10px) brightness(0.82)"
-                                  : "blur(2px) brightness(0.98)",
-                              opacity: actingDest === "voiceover" ? 0.4 : 1,
-                            }
-                      }
-                      transition={{ duration: 1.05, ease: EASE }}
-                      style={{
-                        WebkitMaskImage: `linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) ${clamp(
-                          seam * 100 - 2,
-                          0,
-                          100
-                        )}%, rgba(0,0,0,0) ${clamp(seam * 100 + 4, 0, 100)}%)`,
-                        maskImage: `linear-gradient(90deg, rgba(0,0,0,1) 0%, rgba(0,0,0,1) ${clamp(
-                          seam * 100 - 2,
-                          0,
-                          100
-                        )}%, rgba(0,0,0,0) ${clamp(seam * 100 + 4, 0, 100)}%)`,
-                      }}
-                    >
-                      <div className="paper-mask py-8">
-                        <p className="max-w-[70ch] text-[14px] leading-[1.85] text-zinc-200/90">
-                          Reels live in motion and consequence—scenes that feel underway. This space should later host
-                          embedded reel media and titles; for now, it holds place with text that suggests movement.
-                        </p>
-                        <div className="mt-10 space-y-8">
-                          <ActingItem title="Selected Reel — Mythic / Modern" subtitle="Short montage placeholder" />
-                          <ActingItem title="Selected Reel — Comedy / Dry" subtitle="Short montage placeholder" />
-                          <ActingItem title="Selected Reel — Dramatic / Quiet" subtitle="Short montage placeholder" />
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* RIGHT: Galleries (revealed by masking) */}
-                    <motion.div
-                      className="relative -mt-8"
-                      animate={
-                        reduce
-                          ? {}
-                          : {
-                              filter:
-                                actingDest === "reels"
-                                  ? "blur(6px) brightness(0.85)"
-                                  : actingDest === "voiceover"
-                                  ? "blur(10px) brightness(0.82)"
-                                  : "blur(2px) brightness(0.98)",
-                              opacity: actingDest === "voiceover" ? 0.4 : 1,
-                            }
-                      }
-                      transition={{ duration: 1.05, ease: EASE }}
-                      style={{
-                        WebkitMaskImage: `linear-gradient(90deg, rgba(0,0,0,0) ${clamp(
-                          seam * 100 - 4,
-                          0,
-                          100
-                        )}%, rgba(0,0,0,1) ${clamp(seam * 100 + 2, 0, 100)}%, rgba(0,0,0,1) 100%)`,
-                        maskImage: `linear-gradient(90deg, rgba(0,0,0,0) ${clamp(
-                          seam * 100 - 4,
-                          0,
-                          100
-                        )}%, rgba(0,0,0,1) ${clamp(seam * 100 + 2, 0, 100)}%, rgba(0,0,0,1) 100%)`,
-                      }}
-                    >
-                      <div className="paper-mask py-8">
-                        <p className="max-w-[70ch] text-[14px] leading-[1.85] text-zinc-200/90">
-                          Galleries live in held time—frames, portraiture, still worlds. This space should later hold
-                          image sequences; for now it carries a painterly placeholder rhythm.
-                        </p>
-                        <div className="mt-10 space-y-8">
-                          <ActingItem title="Gallery Set — Shadows / Profile" subtitle="Still sequence placeholder" />
-                          <ActingItem title="Gallery Set — Light / Window" subtitle="Still sequence placeholder" />
-                          <ActingItem title="Gallery Set — Street / Night" subtitle="Still sequence placeholder" />
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* VOICE OVER: an inner chamber that softens the whole field */}
-                    <AnimatePresence>
-                      {actingDest === "voiceover" && (
+                    <AnimatePresence mode="wait" initial={false}>
+                      {/* SPLIT: Single blurred stage with two visible sides divided by vertical seam */}
+                      {actingStage === "split" && (
                         <motion.div
-                          className="relative mt-10"
+                          key="acting-split"
+                          className="relative"
                           initial={reduce ? { opacity: 1 } : { opacity: 0, y: 10, filter: "blur(10px)" }}
                           animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, filter: "blur(0px)" }}
                           exit={reduce ? { opacity: 0 } : { opacity: 0, y: 8, filter: "blur(12px)" }}
                           transition={{ duration: 1.0, ease: EASE }}
                         >
-                          <div className="paper-mask py-10">
-                            <p className="max-w-[78ch] text-[14px] leading-[1.9] text-zinc-100/90">
-                              Voice Over is the interior room. The visual field lowers its volume to let listening take
-                              precedence. Later: reels of audio samples with titles, durations, and a calm play state.
-                              For now: a quiet placeholder that keeps the space soft.
-                            </p>
-                            <div className="mt-8 space-y-5 text-zinc-200/85">
-                              <VoiceItem title="Sample — Warm / Intimate" meta="00:28" />
-                              <VoiceItem title="Sample — Editorial / Crisp" meta="00:18" />
-                              <VoiceItem title="Sample — Narrative / Slow-burn" meta="00:35" />
+                          <div className="relative">
+                            {/* Click capture: left half = Reels, right half = Galleries */}
+                            <div className="absolute inset-0 z-10 grid grid-cols-2">
+                              <button
+                                type="button"
+                                aria-label="Select Reels"
+                                className="cursor-pointer"
+                                onClick={() => {
+                                  pushSnapshot({
+                                    lane: "acting",
+                                    actingStage: "single",
+                                    actingSide: "reels",
+                                    actingSub: null,
+                                  });
+                                  setLane("acting");
+                                  setActingStage("single");
+                                  setActingSide("reels");
+                                  setActingSub(null);
+                                }}
+                              />
+                              <button
+                                type="button"
+                                aria-label="Select Galleries"
+                                className="cursor-pointer"
+                                onClick={() => {
+                                  pushSnapshot({
+                                    lane: "acting",
+                                    actingStage: "single",
+                                    actingSide: "galleries",
+                                    actingSub: null,
+                                  });
+                                  setLane("acting");
+                                  setActingStage("single");
+                                  setActingSide("galleries");
+                                  setActingSub(null);
+                                }}
+                              />
                             </div>
+
+                            {/* Single blurred stage: two sides, one vertical seam */}
+                            <div className="paper-mask py-10">
+                              <p className="max-w-[78ch] text-[14px] leading-[1.9] text-zinc-100/85">
+                                A single blurred stage divided by a vertical seam. Click left for Reels, right for Galleries.
+                              </p>
+
+                              <div className="relative mt-10 overflow-hidden">
+                                {/* Vertical seam dividing the stage */}
+                                <div
+                                  className="pointer-events-none absolute inset-y-0 left-1/2 w-[2px] bg-white/10"
+                                  style={{ boxShadow: "0 0 44px rgba(255,255,255,0.06)" }}
+                                />
+
+                                {/* Two blurred sides visible simultaneously */}
+                                <div className="grid grid-cols-2 gap-0">
+                                  <motion.div
+                                    className="px-6 py-10"
+                                    animate={reduce ? {} : { filter: "blur(4px) brightness(0.92)", opacity: 0.95 }}
+                                    transition={{ duration: 1.0, ease: EASE }}
+                                  >
+                                    <div className="text-[12px] tracking-[0.26em] text-zinc-100/75">REELS</div>
+                                    <div className="mt-5 space-y-7 text-zinc-100/70">
+                                      <GhostLine />
+                                      <GhostLine />
+                                      <GhostLine />
+                                    </div>
+                                  </motion.div>
+
+                                  <motion.div
+                                    className="px-6 py-10"
+                                    animate={reduce ? {} : { filter: "blur(4px) brightness(0.92)", opacity: 0.95 }}
+                                    transition={{ duration: 1.0, ease: EASE }}
+                                  >
+                                    <div className="text-[12px] tracking-[0.26em] text-zinc-100/75">GALLERIES</div>
+                                    <div className="mt-5 space-y-7 text-zinc-100/70">
+                                      <GhostLine />
+                                      <GhostLine />
+                                      <GhostLine />
+                                    </div>
+                                  </motion.div>
+                                </div>
+
+                                <div className="pointer-events-none mt-10 h-px w-full bg-white/10" />
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {/* SINGLE: Collapsed to full-width via lateral slide */}
+                      {actingStage === "single" && (
+                        <motion.div
+                          key="acting-single"
+                          className="relative"
+                          initial={
+                            reduce
+                              ? { opacity: 1 }
+                              : {
+                                  opacity: 0,
+                                  x: actingSide === "reels" ? -28 : 28,
+                                  filter: "blur(10px)",
+                                }
+                          }
+                          animate={reduce ? { opacity: 1 } : { opacity: 1, x: 0, filter: "blur(0px)" }}
+                          exit={
+                            reduce
+                              ? { opacity: 0 }
+                              : {
+                                  opacity: 0,
+                                  x: actingSide === "reels" ? 28 : -28,
+                                  filter: "blur(12px)",
+                                }
+                          }
+                          transition={{ duration: 1.05, ease: EASE }}
+                        >
+                          <div className="paper-mask py-10">
+                            <div className="text-[13px] tracking-[0.24em] text-zinc-100/90">
+                              {actingSide === "reels" ? "REELS" : "GALLERIES"}
+                            </div>
+
+                            <p className="mt-4 max-w-[78ch] text-[14px] leading-[1.9] text-zinc-100/80">
+                              Select a subsection. Nothing opens automatically.
+                            </p>
+
+                            <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 text-[12px] tracking-[0.22em] text-zinc-200/75">
+                              {actingSide === "reels" ? (
+                                <>
+                                  <SubLink
+                                    active={actingSub === "film_tv"}
+                                    label="FILM / TV"
+                                    onEnter={() => {
+                                      pushSnapshot({
+                                        lane: "acting",
+                                        actingStage: "sub",
+                                        actingSide: "reels",
+                                        actingSub: "film_tv",
+                                      });
+                                      setActingStage("sub");
+                                      setActingSub("film_tv");
+                                    }}
+                                    reduce={reduce}
+                                  />
+                                  <SubLink
+                                    active={actingSub === "vocal"}
+                                    label="VOCAL"
+                                    onEnter={() => {
+                                      pushSnapshot({
+                                        lane: "acting",
+                                        actingStage: "sub",
+                                        actingSide: "reels",
+                                        actingSub: "vocal",
+                                      });
+                                      setActingStage("sub");
+                                      setActingSub("vocal");
+                                    }}
+                                    reduce={reduce}
+                                  />
+                                  <SubLink
+                                    active={actingSub === "dance"}
+                                    label="DANCE"
+                                    onEnter={() => {
+                                      pushSnapshot({
+                                        lane: "acting",
+                                        actingStage: "sub",
+                                        actingSide: "reels",
+                                        actingSub: "dance",
+                                      });
+                                      setActingStage("sub");
+                                      setActingSub("dance");
+                                    }}
+                                    reduce={reduce}
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  <SubLink
+                                    active={actingSub === "commercial"}
+                                    label="COMMERCIAL"
+                                    onEnter={() => {
+                                      pushSnapshot({
+                                        lane: "acting",
+                                        actingStage: "sub",
+                                        actingSide: "galleries",
+                                        actingSub: "commercial",
+                                      });
+                                      setActingStage("sub");
+                                      setActingSub("commercial");
+                                    }}
+                                    reduce={reduce}
+                                  />
+                                  <SubLink
+                                    active={actingSub === "stage"}
+                                    label="STAGE"
+                                    onEnter={() => {
+                                      pushSnapshot({
+                                        lane: "acting",
+                                        actingStage: "sub",
+                                        actingSide: "galleries",
+                                        actingSub: "stage",
+                                      });
+                                      setActingStage("sub");
+                                      setActingSub("stage");
+                                    }}
+                                    reduce={reduce}
+                                  />
+                                  <SubLink
+                                    active={actingSub === "drama"}
+                                    label="DRAMA"
+                                    onEnter={() => {
+                                      pushSnapshot({
+                                        lane: "acting",
+                                        actingStage: "sub",
+                                        actingSide: "galleries",
+                                        actingSub: "drama",
+                                      });
+                                      setActingStage("sub");
+                                      setActingSub("drama");
+                                    }}
+                                    reduce={reduce}
+                                  />
+                                </>
+                              )}
+                            </div>
+
+                            <div className="mt-10 h-px w-full bg-white/10" />
+                          </div>
+                        </motion.div>
+                      )}
+
+                      {/* SUBSECTION: Content revealed only when selected */}
+                      {actingStage === "sub" && (
+                        <motion.div
+                          key="acting-sub"
+                          className="relative"
+                          initial={reduce ? { opacity: 1 } : { opacity: 0, y: 10, filter: "blur(12px)" }}
+                          animate={reduce ? { opacity: 1 } : { opacity: 1, y: 0, filter: "blur(0px)" }}
+                          exit={reduce ? { opacity: 0 } : { opacity: 0, y: 8, filter: "blur(12px)" }}
+                          transition={{ duration: 1.05, ease: EASE }}
+                        >
+                          <div className="paper-mask py-10">
+                            <div className="text-[13px] tracking-[0.24em] text-zinc-100/90">
+                              {actingSide === "reels" ? "REELS" : "GALLERIES"} / {labelForSub(actingSub)}
+                            </div>
+
+                            <p className="mt-4 max-w-[78ch] text-[14px] leading-[1.95] text-zinc-100/80">
+                              This content is revealed only because you chose it. Keep media dormant until the viewer engages.
+                            </p>
+
+                            <div className="mt-10 space-y-8 text-zinc-100/80">
+                              <ActingContentBlock
+                                title={labelForSub(actingSub)}
+                                body="Placeholder content. Replace with curated items that do not auto-play or auto-open."
+                              />
+
+                              <ActingContentBlock title="ITEM ONE" body="Credit / descriptor placeholder." />
+                              <ActingContentBlock title="ITEM TWO" body="Credit / descriptor placeholder." />
+                              <ActingContentBlock title="ITEM THREE" body="Credit / descriptor placeholder." />
+                            </div>
+
+                            <div className="mt-10 h-px w-full bg-white/10" />
                           </div>
                         </motion.div>
                       )}
@@ -696,8 +795,8 @@ export default function Page() {
                     transition={{ delay: reduce ? 0 : 0.12, duration: 1.0, ease: EASE }}
                   >
                     <p className="max-w-[70ch] text-[14px] leading-[1.85] text-zinc-900/80">
-                      Digitals remain present—always. Structured, intentional, editorial. Replace these placeholders with
-                      curated digitals and measured captions.
+                      Digitals remain present—always. Structured, intentional, editorial. Replace these placeholders with curated digitals and
+                      measured captions.
                     </p>
 
                     <div className="mt-10 space-y-7">
@@ -817,17 +916,13 @@ export default function Page() {
                         textRendering: "geometricPrecision",
                       }}
                     >
-                      <p>
-                        I don’t trust the first sentence. I trust the third—after the voice has admitted what it’s
-                        protecting.
+                      <p>I don’t trust the first sentence. I trust the third—after the voice has admitted what it’s protecting.</p>
+                      <p className="mt-8">
+                        I write for the moment a person recognizes themselves in a room they didn’t know they’d entered. Not revelation—recognition.
+                        The kind that arrives quietly and changes your posture.
                       </p>
                       <p className="mt-8">
-                        I write for the moment a person recognizes themselves in a room they didn’t know they’d entered.
-                        Not revelation—recognition. The kind that arrives quietly and changes your posture.
-                      </p>
-                      <p className="mt-8">
-                        The work is always trying to remain human while it becomes art. That’s the only tension I care
-                        about.
+                        The work is always trying to remain human while it becomes art. That’s the only tension I care about.
                       </p>
                     </motion.div>
 
@@ -868,10 +963,7 @@ function Threshold({
     <motion.button
       type="button"
       onClick={onEnter}
-      className={cx(
-        "relative text-left",
-        "text-zinc-700 hover:text-zinc-950 transition-colors"
-      )}
+      className={cx("relative text-left", "text-zinc-700 hover:text-zinc-950 transition-colors")}
       initial={false}
       animate={
         reduce
@@ -899,43 +991,6 @@ function Threshold({
   );
 }
 
-function ActingDestLink({
-  label,
-  active,
-  onEnter,
-  reduce,
-}: {
-  label: string;
-  active: boolean;
-  onEnter: () => void;
-  reduce: boolean;
-}) {
-  return (
-    <motion.button
-      type="button"
-      onClick={onEnter}
-      className={cx(
-        "text-left",
-        "text-zinc-200/75 hover:text-zinc-100 transition-colors"
-      )}
-      initial={false}
-      animate={
-        reduce
-          ? {}
-          : {
-              opacity: active ? 1 : 0.65,
-              y: active ? -1 : 0,
-              filter: active ? "brightness(1.05)" : "brightness(1)",
-            }
-      }
-      transition={{ duration: 0.7, ease: EASE }}
-      whileTap={reduce ? undefined : { scale: 0.99 }}
-    >
-      {label}
-    </motion.button>
-  );
-}
-
 function ModelingCatLink({
   label,
   active,
@@ -951,10 +1006,7 @@ function ModelingCatLink({
     <motion.button
       type="button"
       onClick={onEnter}
-      className={cx(
-        "text-left",
-        "text-zinc-700 hover:text-zinc-950 transition-colors"
-      )}
+      className={cx("text-left", "text-zinc-700 hover:text-zinc-950 transition-colors")}
       initial={false}
       animate={
         reduce
@@ -970,25 +1022,6 @@ function ModelingCatLink({
     >
       {label}
     </motion.button>
-  );
-}
-
-function ActingItem({ title, subtitle }: { title: string; subtitle: string }) {
-  return (
-    <div className="text-zinc-100/90">
-      <div className="text-[13px] tracking-[0.14em] opacity-90">{title.toUpperCase()}</div>
-      <div className="mt-2 text-[14px] leading-[1.85] text-zinc-200/80">{subtitle}</div>
-      <div className="mt-6 h-px w-full bg-white/10" />
-    </div>
-  );
-}
-
-function VoiceItem({ title, meta }: { title: string; meta: string }) {
-  return (
-    <div className="flex items-baseline justify-between gap-6">
-      <div className="text-[13px] tracking-[0.12em]">{title.toUpperCase()}</div>
-      <div className="text-[12px] tracking-[0.22em] opacity-70">{meta}</div>
-    </div>
   );
 }
 
@@ -1037,19 +1070,9 @@ function DriftingReviews({ reviews, reduce }: { reviews: string[]; reduce: boole
               key={i}
               className="whitespace-nowrap text-[13px] leading-[1.9] tracking-[0.02em] text-zinc-800/70"
               initial={false}
-              animate={
-                reduce
-                  ? { opacity: 0.75, x: "0%" }
-                  : { opacity: 0.78, x: [`${start}%`, `${end}%`] }
-              }
-              transition={
-                reduce
-                  ? { duration: 0 }
-                  : { duration, ease: "linear", repeat: Infinity }
-              }
-              style={{
-                filter: "blur(0.2px)",
-              }}
+              animate={reduce ? { opacity: 0.75, x: "0%" } : { opacity: 0.78, x: [`${start}%`, `${end}%`] }}
+              transition={reduce ? { duration: 0 } : { duration, ease: "linear", repeat: Infinity }}
+              style={{ filter: "blur(0.2px)" }}
             >
               <span className="italic">{t}</span>
             </motion.div>
@@ -1072,7 +1095,6 @@ function Contact() {
         className="mt-10 max-w-[560px] space-y-6"
         onSubmit={(e) => {
           e.preventDefault();
-          // Intentionally minimal: wire up later to an email service or form backend.
           alert("Message draft captured locally. Wire this to your preferred form handler.");
         }}
       >
@@ -1087,10 +1109,7 @@ function Contact() {
           </a>
         </div>
 
-        <button
-          type="submit"
-          className="text-[12px] tracking-[0.22em] text-zinc-700 hover:text-zinc-950 transition-colors"
-        >
+        <button type="submit" className="text-[12px] tracking-[0.22em] text-zinc-700 hover:text-zinc-950 transition-colors">
           SEND
         </button>
       </form>
@@ -1108,20 +1127,80 @@ function Field({
   multiline?: boolean;
 }) {
   const common =
-    "w-full bg-transparent text-zinc-950 placeholder:text-zinc-500/70 outline-none " +
-    "text-[14px] leading-[1.8]";
+    "w-full bg-transparent text-zinc-950 placeholder:text-zinc-500/70 outline-none " + "text-[14px] leading-[1.8]";
   return (
     <div className="space-y-2">
       <div className="text-[12px] tracking-[0.22em] text-zinc-700">{label.toUpperCase()}</div>
-      {multiline ? (
-        <textarea
-          className={cx(common, "min-h-[120px] resize-y")}
-          placeholder={placeholder}
-        />
-      ) : (
-        <input className={common} placeholder={placeholder} />
-      )}
+      {multiline ? <textarea className={cx(common, "min-h-[120px] resize-y")} placeholder={placeholder} /> : <input className={common} placeholder={placeholder} />}
       <div className="h-px w-full bg-zinc-950/10" />
+    </div>
+  );
+}
+
+/* --- Acting helpers --- */
+
+function labelForSub(sub: ActingSub | null) {
+  if (!sub) return "";
+  switch (sub) {
+    case "film_tv":
+      return "FILM / TV";
+    case "vocal":
+      return "VOCAL";
+    case "dance":
+      return "DANCE";
+    case "commercial":
+      return "COMMERCIAL";
+    case "stage":
+      return "STAGE";
+    case "drama":
+      return "DRAMA";
+  }
+}
+
+function GhostLine() {
+  return <div className="h-[10px] w-full bg-white/10" style={{ filter: "blur(0.4px)" }} />;
+}
+
+function SubLink({
+  label,
+  active,
+  onEnter,
+  reduce,
+}: {
+  label: string;
+  active: boolean;
+  onEnter: () => void;
+  reduce: boolean;
+}) {
+  return (
+    <motion.button
+      type="button"
+      onClick={onEnter}
+      className="text-left text-zinc-200/75 hover:text-zinc-100 transition-colors"
+      initial={false}
+      animate={
+        reduce
+          ? {}
+          : {
+              opacity: active ? 1 : 0.65,
+              y: active ? -1 : 0,
+              filter: active ? "brightness(1.06)" : "brightness(1)",
+            }
+      }
+      transition={{ duration: 0.7, ease: EASE }}
+      whileTap={reduce ? undefined : { scale: 0.99 }}
+    >
+      {label}
+    </motion.button>
+  );
+}
+
+function ActingContentBlock({ title, body }: { title: string; body: string }) {
+  return (
+    <div>
+      <div className="text-[12px] tracking-[0.26em] text-zinc-100/85">{title}</div>
+      <div className="mt-3 text-[14px] leading-[1.95] text-zinc-100/75">{body}</div>
+      <div className="mt-7 h-px w-full bg-white/10" />
     </div>
   );
 }
